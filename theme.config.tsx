@@ -4,16 +4,6 @@ import { DocsThemeConfig } from 'nextra-theme-docs'
 import { useRouter } from 'next/router'
 
 const config: DocsThemeConfig = {
-  themeSwitch: {
-      useOptions() {
-        return {
-          light: 'Light',
-          dark: 'Dark',
-          system: 'System'
-        }
-      }
-    }
-  },
   toc: {
     title: "Bu səhifədə"
   },
