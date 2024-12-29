@@ -1,0 +1,228 @@
+# Intrinsik Funksiyalar
+
+İntrinsik funksiyalar, Fortran dilinə inteqrasiya edilmiş ümumi və vacib funksiyalardır. Bu funksiyalar, sadə arifmetikadan daha mürəkkəb əməliyyatlara və hesablamalara qədər müxtəlif əməliyyatları yerinə yetirmək üçün geniş şəkildə istifadə olunur. Onlar bir neçə kateqoriyaya bölünür, hər biri müəyyən məqsədlər üçün xidmət edir. Bu funksiyaların bəzilərini əvvəlki fəsillərdə, o cümlədən massivlər, xarakterlər və sətirlər haqqında müzakirə etmişdik.
+
+### İntrinsik Funksiyaların Kateqoriyaları:
+Fortran-dakı intrinsik funksiyalar aşağıdakı şəkildə qruplaşdırıla bilər:
+
+1. **Sayısal Funksiyalar**
+2. **Riyazi Funksiyalar**
+3. **Sayısal Sorğu Funksiyaları**
+4. **Hərəkətli Nöqtə Manipulyasiya Funksiyaları**
+5. **Bit Manipulyasiya Funksiyaları**
+6. **Xarakter Funksiyaları**
+7. **Kind Funksiyaları**
+8. **Məntiqi Funksiyalar**
+9. **Massiv Funksiyaları** (Massivlər fəsilində müzakirə edilmişdir)
+
+Bu bölmədə bu kateqoriyalardan funksiyalar qısa şəkildə təsvir ediləcək və onların istifadəsi və funksionallığı haqqında məlumat veriləcək.
+
+---
+
+### Sayısal Funksiyalar
+
+Fortran-dakı sayısal funksiyalar, real və tam ədəd kimi sayısal verilənlər üzərində əməliyyatlar aparır. Aşağıda bu funksiyaların siyahısı və onların təsvirləri verilmişdir:
+
+| **Funksiya**     | **Təsvir**                                                           |
+|------------------|---------------------------------------------------------------------|
+| **ABS(A)**        | `A`-nın müsbət dəyərini qaytarır.                                     |
+| **AIMAG(Z)**      | Kompleks ədəd `Z`-nin imaginativ hissəsini qaytarır.                  |
+| **AINT(A [, KIND])** | `A`-nın kəsr hissəsini sıfıra doğru yuvarlaqlaşdırır və real ədəd qaytarır. |
+| **ANINT(A [, KIND])** | `A`-ya ən yaxın tam ədəd dəyərini qaytarır.                           |
+| **CEILING(A [, KIND])** | `A`-dan böyük və ya ona bərabər ən kiçik tam ədədini qaytarır.         |
+| **CMPLX(X [, Y, KIND])** | Real dəyişənlər `X` və `Y`-ni kompleks ədədə çevirir. Əgər `Y` verilmişsə, sıfır olaraq qəbul edilir. |
+| **CONJG(Z)**      | `Z`-nin kompleks konjugatını qaytarır.                                |
+| **DBLE(A)**       | `A`-nı ikiqat dəqiqliklə real ədədə çevirir.                         |
+| **DIM(X, Y)**     | `X` ilə `Y` arasındakı müsbət fərqi qaytarır.                          |
+| **DPROD(X, Y)**   | `X` ilə `Y`-nin ikiqat dəqiqliklə hasilini qaytarır.                  |
+| **FLOOR(A [, KIND])** | `A`-dan kiçik və ya ona bərabər ən böyük tam ədədini qaytarır.         |
+| **INT(A [, KIND])** | `A`-nı tam ədədə çevirir və real hissəni sıfıra doğru kəsir.           |
+| **MAX(A1, A2 [, A3, ...])** | Eyni tipdə olan arqumentlərdən ən böyük dəyəri qaytarır.             |
+| **MIN(A1, A2 [, A3, ...])** | Eyni tipdə olan arqumentlərdən ən kiçik dəyəri qaytarır.             |
+| **MOD(A, P)**     | `A`-nın `P`-yə bölünməsindən qalanı qaytarır.                         |
+| **MODULO(A, P)**  | `A`-nın `P`-yə modulosunu qaytarır.                                  |
+| **NINT(A [, KIND])** | `A`-nın ən yaxın tam ədədini qaytarır.                                |
+| **REAL(A [, KIND])** | `A`-yı real tipə çevirir.                                           |
+| **SIGN(A, B)**    | `A`-nın müsbət dəyərini `B`-nin işarəsi ilə vurur və nəticəni qaytarır. |
+
+#### Sayısal Funksiyalar üçün Nümunə Proqram:
+```fortran
+program numericFunctions
+implicit none  
+
+   ! konstantları təyin et  
+   real :: a, b 
+   complex :: z
+   
+   ! a, b dəyərləri  
+   a = 15.2345
+   b = -20.7689
+    
+   write(*,*) 'abs(a): ',abs(a),' abs(b): ',abs(b)   
+   write(*,*) 'aint(a): ',aint(a),' aint(b): ',aint(b) 
+   write(*,*) 'ceiling(a): ',ceiling(a),' ceiling(b): ',ceiling(b)   
+   write(*,*) 'floor(a): ',floor(a),' floor(b): ',floor(b)  
+    
+   z = cmplx(a, b)
+   write(*,*) 'z: ',z   
+   
+end program numericFunctions
+```
+Proqramın tərcümə olunması və icra edilməsi ilə aşağıdakı nəticə alınacaq:
+```
+abs(a): 15.2344999   abs(b): 20.7688999    
+aint(a): 15.0000000  aint(b): -20.0000000    
+ceiling(a): 16  ceiling(b): -20
+floor(a): 15  floor(b): -21
+z: (15.2344999, -20.7688999)
+```
+
+---
+
+### Riyazi Funksiyalar
+
+Fortran-dakı riyazi funksiyalar, trigonometriya, logaritmalar və digər əsas riyazi hesablamalarla əlaqəli əməliyyatlar yerinə yetirir. Aşağıda bu funksiyaların ümumi təsviri verilmişdir:
+
+| **Funksiya**     | **Təsvir**                                                           |
+|------------------|---------------------------------------------------------------------|
+| **ACOS(X)**       | `X`-nin invers kosinusunu radianla qaytarır, (0, π) aralığında.     |
+| **ASIN(X)**       | `X`-nin invers sinusunu radianla qaytarır, (-π/2, π/2) aralığında. |
+| **ATAN(X)**       | `X`-nin invers tangensini radianla qaytarır, (-π/2, π/2) aralığında. |
+| **ATAN2(Y, X)**   | `Y/X`-nin invers tangensini radianla qaytarır, (-π, π) aralığında.  |
+| **COS(X)**        | `X`-nin kosinusunu radianla qaytarır.                                |
+| **COSH(X)**       | `X`-nin hiperbolik kosinusunu qaytarır.                              |
+| **EXP(X)**        | `X`-nin eksponential dəyərini qaytarır.                              |
+| **LOG(X)**        | `X`-nin təbii logaritmik dəyərini qaytarır.                          |
+| **LOG10(X)**      | `X`-nin 10-luq logaritmik dəyərini qaytarır.                         |
+| **SIN(X)**        | `X`-nin sinusunu radianla qaytarır.                                  |
+| **SINH(X)**       | `X`-nin hiperbolik sinusunu qaytarır.                                |
+| **SQRT(X)**       | `X`-nin kvadrat kökünü qaytarır.                                     |
+| **TAN(X)**        | `X`-nin tangensini radianla qaytarır.                                |
+| **TANH(X)**       | `X`-nin hiperbolik tangensini qaytarır.                              |
+
+#### Riyazi Funksiyalar üçün Nümunə Proqram:
+```fortran
+program projectileMotion  
+implicit none  
+
+   ! konstantları təyin et  
+   real, parameter :: g = 9.8  
+   real, parameter :: pi = 3.1415927  
+   
+   ! dəyişənləri təyin et
+   real :: a, t, u, x, y   
+   
+   ! a, t, u dəyərləri  
+   a = 45.0
+   t = 20.0
+   u = 10.0
+   
+   ! bucaq radianlara çevrilir  
+   a = a * pi / 180.0  
+   x = u * cos(a) * t   
+   y = u * sin(a) * t - 0.5 * g * t * t  
+   
+   write(*,*) 'x: ',x,'  y: ',y   
+   
+end program projectileMotion
+```
+Proqramın tərcümə olunması və icra edilməsi ilə aşağıdakı nəticə alınacaq:
+```
+x: 141.421356  y: -1818.57861  
+```
+
+---
+
+### Sayısal Sorğu Funksiyaları
+
+Bu funksiyalar, istifadə olunan ədədlərin xüsusiyyətləri barədə məlumat qaytarır, məsələn, onların dəqiqliyi, aralığı və digər əlaqəli xüsusiyyətlər. Məsələn:
+
+| **Funksiya**     | **Təsvir**                                                           |
+|------------------|---------------------------------------------------------------------|
+| **DIGITS(X)**     | `X`-nin əhəmiyyətli rəqəmlərinin sayını qaytarır.                   |
+| **EPSILON(X)**    | `1.0`-a əlavə edildikdə fərqli nəticə verən ən kiçik ədədi qaytarır. |
+| **HUGE(X)**       | `X` üçün modelin ən böyük ədədini qaytarır.                          |
+| **MAXEXPONENT(X)**| Modelin maksimum eksponentini qaytarır.                              |
+| **MINEXPONENT(X)**| Modelin minimum eksponentini qaytarır.                              |
+| **PRECISION(X)**  | `X` üçün ondalık dəqiqliyi qaytarır.                                |
+| **RADIX(X)**      | `X` üçün modelin əsasını qaytarır.                                   |
+| **RANGE(X)**      | `X` üçün ondalık eksponent aralığını qaytarır.                       |
+| **TINY(X)**       | Modelin ən kiçik müsbət ədədini qaytarır.                            |
+
+---
+
+### Hərəkətli Nöqtə Manipulyasiya Funksiyaları
+
+Bu funksiyalar, müxtəlif yollarla hərəkətli nöqtə dəyərləri ilə işləmək üçün istifadə olunur, məsələn, bir ədədin eksponent və ya kəsr hissəsini almaq. Onlar hesablamalarda ədədi təmsillərlə daha incə idarəetmə imkanı verir.
+
+| **Funksiya**     | **Təsvir**                                                           |
+|------------------|---------------------------------------------------------------------|
+| **EXPONENT(X)**   | `X`-nin eksponent hissəsini qaytarır.                               |
+| **FRACTION(X)**   | `X`-nin kəsr hissəsini qaytarır.                                    |
+| **NEAREST(X, S)** | `X`-ə yaxın olan növbəti fərqli prosessor sayını müəyyən istiqamətdə qaytarır. |
+| **RRSPACING(X)**  | `X`-in yuxarıya doğru yuvarlaqlaşdırılmış ən yaxın kiçik bir ədədi qaytarır. |
+| **SIGN(X, Y)**    | `X`-nın müsbət dəyərini `Y`-nin işarəsi ilə vurur.                  |
+
+
+---
+
+### Bit Manipulyasiya Funksiyaları
+
+Bit manipulyasiya funksiyaları, tam ədəd dəyişənindəki fərdi bitlərlə işləməyə imkan verir. Bu, ikili səviyyədə əməliyyatlar üçün faydalıdır.
+
+| **Funksiya**     | **Təsvir**                                                          |
+|------------------|---------------------------------------------------------------------|
+| **BIT_SIZE(I)**  | Modeldəki bitlərin sayını qaytarır.                                 |
+| **BTEST(I, POS)**| `I`-dəki `POS` mövqeyindəki biti yoxlayır.                          |
+| **IAND(I, J)**   | `I` və `J` arasında məntiqi AND əməliyyatı yerinə yetirir.           |
+| **IBCLR(I, POS)**| `I`-dəki `POS` mövqeyindəki biti təmizləyir.                        |
+| **IBITS(I, POS, LEN)** | `I`-dən `POS` mövqeyindən başlayaraq `LEN` uzunluğunda bit seqmentini çıxarır. |
+| **IBSET(I, POS)**| `I`-dəki `POS` mövqeyindəki biti təyin edir.                         |
+| **IEOR(I, J)**   | `I` və `J` arasında eksklüziv OR əməliyyatı yerinə yetirir.           |
+| **IOR(I, J)**    | `I` və `J` arasında inklüziv OR əməliyyatı yerinə yetirir.            |
+| **ISHFT(I, SHIFT)** | `I`-nin bitlərini `SHIFT` mövqeyinə qədər məntiqi olaraq hərəkət etdirir. |
+| **ISHFTC(I, SHIFT [, SIZE])** | `I`-nin bitlərini `SHIFT` mövqeyinə qədər dövr edən şəkildə hərəkət etdirir. |
+| **NOT(I)**        | `I`-nin məntiqi tamamlayıcısını hesablayır.                           |
+
+---
+
+### Xarakter Funksiyaları
+
+Bu funksiyalar xarakter sətirləri ilə manipulyasiya edir və kəsilmə, sətir birləşdirmə və sətir müqayisəsi kimi müxtəlif əməliyyatlar təmin edir.
+
+| **Funksiya**     | **Təsvir**                                                          |
+|------------------|---------------------------------------------------------------------|
+| **ACHAR(I)**      | ASCII sıralama ardıcıllığında `I`-ci xarakteri qaytarır.             |
+| **ADJUSTL(STRING)** | Başdakı boşluqları silir və sətiri sola tənzimləmək üçün sonuna boşluqlar əlavə edir. |
+| **ADJUSTR(STRING)** | Sonundakı boşluqları silir və sətiri sağa tənzimləmək üçün əvvəlinə boşluqlar əlavə edir. |
+| **CHAR(I [, KIND])** | Maşına xas sıralama ardıcıllığında `I`-ci xarakteri qaytarır.        |
+| **IACHAR(C)**     | `C` xarakterinin ASCII sıralama ardıcıllığındakı mövqeyini qaytarır. |
+| **ICHAR(C)**      | `C` xarakterinin maşına xas sıralama ardıcıllığındakı mövqeyini qaytarır. |
+| **INDEX(STRING, SUBSTRING [, BACK])** | `STRING` daxilindəki `SUBSTRING`-in başlanğıc mövqeyini qaytarır. |
+| **LEN(STRING)**   | `STRING`-in uzunluğunu qaytarır.                                     |
+| **LEN_TRIM(STRING)** | `STRING`-in uzunluğunu son boşluqlar olmadan qaytarır.                 |
+
+---
+
+### Kind Funksiyaları
+
+Kind funksiyaları, Fortran-da dəyişənlərin tip parametrləri ilə işləyir.
+
+| **Funksiya**     | **Təsvir**                                                          |
+|------------------|---------------------------------------------------------------------|
+| **KIND(X)**       | `X`-in kind tip parametri dəyərini qaytarır.                        |
+| **SELECTED_REAL_KIND(R [, P])** | `R` dəqiqliyi və `P` eksponent aralığı verilmiş halda real kind dəyəri qaytarır. |
+
+---
+
+### Məntiqi Funksiyalar
+
+Məntiqi funksiyalar, Fortran-da məntiqi tiplərlə işləyir, məntiqi əməliyyatlar və müqayisələr aparmağa imkan verir.
+
+| **Funksiya**     | **Təsvir**                                                          |
+|------------------|---------------------------------------------------------------------|
+| **ALL(A)**        | Əgər `A`-nın bütün elementləri doğru olarsa, `.TRUE.` qaytarır.    |
+| **ANY(A)**        | Əgər `A`-nın hər hansı bir elementi doğru olarsa, `.TRUE.` qaytarır. |
+| **COUNT(A)**      | `A` massivində `.TRUE.` olan dəyərlərin sayını hesablayır.         |
+| **MERGE(A, B, MASK)** | Maskaya əsaslanaraq `A` və `B`-dən dəyərləri birləşdirən bir massiv qaytarır. |
+| **ANY(A)**        | Əgər massivdəki hər hansı bir element `.TRUE.`-dursa, `.TRUE.` qaytarır. |

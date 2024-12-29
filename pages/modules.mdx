@@ -1,0 +1,207 @@
+
+# Fortran-da Modul
+
+Modul, çox böyük bir proqram yazdığınız zaman və ya funksiyalarınız və subprosedurlarınız bir neçə proqramda istifadə edilə biləcəyi halda, funksiyalarınızı və subprosedurlarınızı saxlaya biləcəyiniz bir paket kimidir.
+
+Modullar, proqramlarınızı bir neçə fayl arasında ayırmaq üçün bir yol təqdim edir.
+
+Modullar aşağıdakı məqsədlər üçün istifadə olunur:
+
+- Subproqramlar, məlumatlar və interfeys bloklarını paketləmək.
+- Bir neçə rutin tərəfindən istifadə oluna bilən qlobal məlumatları təyin etmək.
+- Seçdiyiniz hər hansı bir rutin daxilində istifadə oluna biləcək dəyişənləri elan etmək.
+- Modulu tam şəkildə başqa bir proqram və ya subprosedura daxil etmək.
+
+### Modulun Sintaksisi
+
+Bir modul iki hissədən ibarətdir:
+
+- Bəyanatlar üçün spesifikasiya hissəsi
+- Subprosedura və funksiyalar üçün "contains" hissəsi
+
+Modulun ümumi forması belədir:
+
+```
+module name     
+   [statement declarations]  
+   [contains [subroutine and function definitions] ] 
+end module [name]
+```
+
+### Modulu Proqramınıza Daxil Etmək
+
+Modulu proqram və ya subprosedura daxil etmək üçün `use` bəyanatından istifadə edə bilərsiniz:
+
+```
+use name  
+```
+
+Qeyd edin ki:
+
+- Lazım olduqda istədiyiniz qədər modul əlavə edə bilərsiniz, hər biri ayrı fayllarda olacaq və ayrıca tərtib ediləcək.
+- Modul bir neçə fərqli proqramda istifadə oluna bilər.
+- Modul, eyni proqramda bir neçə dəfə istifadə oluna bilər.
+- Modulun spesifikasiya hissəsində elan edilmiş dəyişənlər, modul üçün qlobaldır.
+- Modulda elan edilmiş dəyişənlər, modulu istifadə edən hər hansı bir proqram və ya rutin üçün qlobal dəyişənlərə çevrilir.
+- `use` bəyanatı əsas proqramda və ya moduldakı bəyanatları və dəyişənləri istifadə edən hər hansı bir subprosedurda və ya moduldakı proqramda görünə bilər.
+
+### Nümunə
+
+Aşağıdakı nümunə konsepti göstərir:
+
+```
+module constants  
+implicit none 
+
+   real, parameter :: pi = 3.1415926536  
+   real, parameter :: e = 2.7182818285 
+   
+contains      
+   subroutine show_consts()          
+      print*, "Pi = ", pi          
+      print*,  "e = ", e     
+   end subroutine show_consts 
+   
+end module constants 
+
+
+program module_example     
+use constants      
+implicit none     
+
+   real :: x, ePowerx, area, radius 
+   x = 2.0
+   radius = 7.0
+   ePowerx = e ** x
+   area = pi * radius**2     
+   
+   call show_consts() 
+   
+   print*, "e raised to the power of 2.0 = ", ePowerx
+   print*, "Area of a circle with radius 7.0 = ", area  
+   
+end program module_example
+```
+
+Yuxarıdakı proqramı tərtib edib icra etdikdə, aşağıdakı nəticə alınır:
+
+```
+Pi = 3.14159274    
+e =  2.71828175    
+e raised to the power of 2.0 = 7.38905573    
+Area of a circle with radius 7.0 = 153.938049   
+```
+
+### Moduldakı Dəyişənlər və Subproseduraların Əlçatanlığı
+
+Varsayılan olaraq, modulda olan bütün dəyişənlər və subproseduralar `use` bəyanatı ilə modulu istifadə edən proqram üçün əlçatandır.
+
+Bununla yanaşı, modul kodunun əlçatanlığını `private` və `public` atributları ilə idarə edə bilərsiniz. Hər hansı bir dəyişən və ya subprosedura `private` olaraq elan edildikdə, o modul xaricində əlçatmaz olur.
+
+### Nümunə
+
+Aşağıdakı nümunə konsepti izah edir:
+
+Əvvəlki nümunədə, iki modul dəyişəni var idi: `e` və `pi`. Gəlin onları `private` edək və nəticəni izləyək:
+
+```
+module constants  
+implicit none 
+
+   real, parameter,private :: pi = 3.1415926536  
+   real, parameter, private :: e = 2.7182818285 
+   
+contains      
+   subroutine show_consts()          
+      print*, "Pi = ", pi          
+      print*, "e = ", e     
+   end subroutine show_consts 
+   
+end module constants 
+
+
+program module_example     
+use constants      
+implicit none     
+
+   real :: x, ePowerx, area, radius 
+   x = 2.0
+   radius = 7.0
+   ePowerx = e ** x
+   area = pi * radius**2     
+   
+   call show_consts() 
+   
+   print*, "e raised to the power of 2.0 = ", ePowerx
+   print*, "Area of a circle with radius 7.0 = ", area  
+   
+end program module_example
+```
+
+Yuxarıdakı proqramı tərtib edib icra etdikdə, aşağıdakı səhv mesajını alırıq:
+
+```
+   ePowerx = e ** x
+   1
+Error: Symbol 'e' at (1) has no IMPLICIT type
+main.f95:19.13:
+
+   area = pi * radius**2     
+   1
+Error: Symbol 'pi' at (1) has no IMPLICIT type
+```
+
+Çünki `e` və `pi` hər ikisi `private` olaraq elan edilmişdir, buna görə `module_example` proqramı bu dəyişənlərə artıq daxil ola bilmir.
+
+Ancaq digər modul subproseduraları onlara daxil ola bilər:
+
+```
+module constants  
+implicit none 
+
+   real, parameter,private :: pi = 3.1415926536  
+   real, parameter, private :: e = 2.7182818285 
+   
+contains      
+   subroutine show_consts()          
+      print*, "Pi = ", pi          
+      print*, "e = ", e     
+   end subroutine show_consts 
+   
+   function ePowerx(x)result(ePx) 
+   implicit none
+      real::x
+      real::ePx
+      ePx = e ** x
+   end function ePowerx
+    
+   function areaCircle(r)result(a)  
+   implicit none
+      real::r
+      real::a
+      a = pi * r**2  
+   end function areaCircle
+    
+end module constants 
+
+
+program module_example     
+use constants      
+implicit none     
+
+   call show_consts() 
+   
+   Print*, "e raised to the power of 2.0 = ", ePowerx(2.0)
+   print*, "Area of a circle with radius 7.0 = ", areaCircle(7.0)  
+   
+end program module_example
+```
+
+Yuxarıdakı proqramı tərtib edib icra etdikdə, aşağıdakı nəticə alınır:
+
+```
+Pi = 3.14159274    
+e = 2.71828175    
+e raised to the power of 2.0 = 7.38905573    
+Area of a circle with radius 7.0 = 153.938049   
+```

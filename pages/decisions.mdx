@@ -1,0 +1,110 @@
+# Fortran-da Qərar Qəbuletmə
+
+Qərar qəbul etmə strukturları proqramçılara bir və ya bir neçə şərti müəyyənləşdirməyə və həmin şərtlərin doğru və ya yanlış olmasına əsasən icra olunacaq ifadələri yazmağa imkan verir.
+
+Aşağıda, əksər proqramlaşdırma dillərində rast gəlinən qərar qəbul etmə strukturunun ümumi forması göstərilmişdir:
+
+![Qərar Qəbuletmə](https://www.tutorialspoint.com/fortran/images/decision_making.jpg)
+
+## Fortran-da Qərar Qəbuletmə Strukturunun Tipləri
+
+Fortran bir neçə növ qərar qəbuletmə strukturu təqdim edir:
+
+---
+
+### 1. `If...then` Konstruktu
+
+`if...then...end if` ifadəsi məntiqi bir ifadədən və bir və ya bir neçə ifadədən ibarətdir. Əgər məntiqi ifadə doğru (true) olaraq qiymətləndirilərsə, həmin ifadələr icra olunur.
+
+**Sintaksis:**
+```fortran
+if (şərt) then
+    ! ifadələr
+end if
+```
+
+---
+
+### 2. `If...then...else` Konstruktu
+
+`if...then` ifadəsindən sonra isteğe bağlı `else` bloku əlavə edilə bilər. Əgər məntiqi ifadə yanlış (false) olaraq qiymətləndirilərsə, `else` blokundakı ifadələr icra olunur.
+
+**Sintaksis:**
+```fortran
+if (şərt) then
+    ! şərt doğru olduqda ifadələr
+else
+    ! şərt yanlış olduqda ifadələr
+end if
+```
+
+---
+
+### 3. `If...else if...else` İfadəsi
+
+`if` ifadəsinə bir və ya bir neçə isteğe bağlı `else if` bloku əlavə edilə bilər. Əgər `if` şərti yerinə yetirilməzsə, növbəti `else if` bloku yoxlanılır. Əgər o da yerinə yetirilməzsə, növbəti `else if` blokuna keçilir və s. Heç bir şərt doğru olmadıqda, `else` bloku icra olunur.
+
+**Sintaksis:**
+```fortran
+if (şərt1) then
+    ! şərt1 üçün ifadələr
+else if (şərt2) then
+    ! şərt2 üçün ifadələr
+else
+    ! heç bir şərt doğru olmadıqda ifadələr
+end if
+```
+
+---
+
+### 4. İç-içə `If` Konstruktu
+
+Bir `if` və ya `else if` ifadəsi başqa bir `if` və ya `else if` ifadəsinin daxilində yerləşdirilə bilər. Bu, `iç-içə if` konstruksiyası adlanır.
+
+**Sintaksis:**
+```fortran
+if (şərt1) then
+    if (şərt2) then
+        ! şərt1 və şərt2 üçün ifadələr
+    end if
+end if
+```
+
+---
+
+### 5. `Select Case` Konstruktu
+
+`select case` ifadəsi bir dəyişənin bir neçə dəyərdən hansına bərabər olduğunu yoxlamaq üçün istifadə olunur. Bu, bir dəyişəni bir neçə dəyərlə müqayisə edərkən çox faydalıdır.
+
+**Sintaksis:**
+```fortran
+select case (dəyişən)
+    case (dəyər1)
+        ! dəyər1 üçün ifadələr
+    case (dəyər2)
+        ! dəyər2 üçün ifadələr
+    case default
+        ! default (səssiz) vəziyyət üçün ifadələr
+end select
+```
+
+---
+
+### 6. `İç-içə Select Case` Konstruktu
+
+Bir `select case` ifadəsi başqa bir `select case` ifadəsinin daxilində yerləşdirilə bilər və bu, daha mürəkkəb vəziyyət strukturunun qurulmasına imkan verir.
+
+**Sintaksis:**
+```fortran
+select case (dəyişən1)
+    case (dəyər1)
+        select case (dəyişən2)
+            case (dəyər2)
+                ! dəyər1 və dəyər2 üçün ifadələr
+            case default
+                ! ikinci select case üçün default vəziyyət ifadələri
+        end select
+    case default
+        ! birinci select case üçün default vəziyyət ifadələri
+end select
+```

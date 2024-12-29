@@ -1,0 +1,194 @@
+# Fortran Pointerləri və Yaddaşın İdarə Edilməsi
+
+Çoxsaylı proqramlaşdırma dillərində, bir pointer dəyişəni obyektin yaddaş ünvanını saxlayır. Lakin, Fortran pointerləri yalnız yaddaş ünvanını saxlamaqla kifayətlənmir; onlar obyekt haqqında əlavə məlumatları da saxlayır, məsələn, obyektin tipi, sırası, ölçüləri və yaddaş ünvanı.
+
+Pointer, hədəfi ya ayırma, ya da pointer təyini vasitəsilə əlaqələndirilir. Bu o deməkdir ki, Fortran pointerləri dinamiki olaraq ayrılmış yaddaşa və ya eyni tipli məlumat obyektlərinə işarə edə bilər, bunlar `target` atributu ilə elan edilir.
+
+## Pointer Dəyişənini Bəyannamə Etmək
+
+Fortran-da pointer dəyişənləri `pointer` atributu istifadə edilərək bəyannamə edilir. Aşağıda pointer dəyişənlərinin bəzi bəyannamə nümunələri verilmişdir:
+
+```fortran
+integer, pointer :: p1 ! Tam ədədə işarə edən pointer
+real, pointer, dimension(:) :: pra ! 1 ölçülü real massivə işarə edən pointer
+real, pointer, dimension(:,:) :: pra2 ! 2 ölçülü real massivə işarə edən pointer
+```
+
+Bir pointer aşağıdakılara işarə edə bilər:
+- Dinamik olaraq ayrılmış yaddaş sahəsinə.
+- Pointer ilə eyni tipli `target` atributu ilə elan edilmiş məlumat obyektinə.
+
+## Pointer üçün Yaddaş Ayırmaq
+
+Pointer üçün yaddaş ayırmaq üçün `allocate` bəyanatından istifadə edə bilərsiniz. Məsələn:
+
+```fortran
+program pointerExample
+  implicit none
+
+  integer, pointer :: p1
+  allocate(p1)
+
+  p1 = 1
+  Print *, p1
+
+  p1 = p1 + 4
+  Print *, p1
+
+end program pointerExample
+```
+
+Kod işə salındıqda, çıxış belə olacaq:
+```
+1
+5
+```
+
+### Pointeri Azad Etmək
+
+Bir pointer artıq lazım olmadıqda, ayrılmış yaddaşı `deallocate` bəyanatından istifadə edərək azad etməlisiniz. Bu, istifadə olunmayan yaddaşı təmizləyərək yaddaşın sızmasının qarşısını almağa kömək edir.
+
+## Hədəflər və Əlaqələndirmə
+
+**Target** normal bir dəyişəndir, onun üçün yaddaş sahəsi ayrılmışdır. Bir dəyişəni hədəf kimi təyin etmək üçün `target` atributundan istifadə edin. Pointer dəyişənini hədəf dəyişəni ilə əlaqələndirmək üçün əlaqələndirmə operatoru (`=>`) istifadə edə bilərsiniz.
+
+Pointeri hədəflə necə əlaqələndirəcəyinizi göstərən nümunə:
+
+```fortran
+program pointerExample
+  implicit none
+
+  integer, pointer :: p1
+  integer, target :: t1
+
+  p1 => t1
+  p1 = 1
+
+  Print *, p1
+  Print *, t1
+
+  p1 = p1 + 4
+  Print *, p1
+  Print *, t1
+
+  t1 = 8
+  Print *, p1
+  Print *, t1
+
+end program pointerExample
+```
+
+İşləndikdə çıxış belə olacaq:
+```
+1
+1
+5
+5
+8
+8
+```
+
+Bu nümunədə, `p1` pointeri `t1` hədəfi ilə `=>` operatoru vasitəsilə əlaqələndirilir. `p1` və `t1` hər ikisi dəyişdirildikdə dəyişikliyi əks etdirir.
+
+## Pointerin Vəziyyəti: Təyin Edilməmiş, Əlaqələndirilmiş, Əlaqəsiz
+
+Bir pointer aşağıdakı vəziyyətlərdən birində ola bilər:
+- **Təyin Edilməmiş**
+- **Əlaqələndirilmiş**
+- **Əlaqəsiz**
+
+Bir pointerin hədəf ilə əlaqələndirilib-əlaqələndirilmədiyini yoxlamaq üçün `associated` funksiyasından istifadə edin.
+
+### Pointeri Əlaqəsiz Etmək
+
+Pointeri hədəfindən əlaqəsiz etmək üçün `nullify` bəyanatından istifadə edə bilərsiniz. Bu, hədəfi yaddaşdan azad etmir; yalnız pointer ilə hədəf arasındakı əlaqəni kəsir. Hədəf hələ də digər pointerlər tərəfindən istinad edilə bilər.
+
+Aşağıda `nullify` bəyanatının nümayişini göstərən nümunə verilmişdir:
+
+```fortran
+program pointerExample
+  implicit none
+
+  integer, pointer :: p1
+  integer, target :: t1
+  integer, target :: t2
+
+  p1 => t1
+  p1 = 1
+
+  Print *, p1
+  Print *, t1
+
+  p1 = p1 + 4
+  Print *, p1
+  Print *, t1
+
+  t1 = 8
+  Print *, p1
+  Print *, t1
+
+  nullify(p1)
+  Print *, t1
+
+  p1 => t2
+  Print *, associated(p1)
+  Print *, associated(p1, t1)
+  Print *, associated(p1, t2)
+
+  Print *, p1
+  Print *, t2
+
+  p1 = 10
+  Print *, p1
+  Print *, t2
+
+end program pointerExample
+```
+
+Çıxış belə olacaq:
+```
+1
+1
+5
+5
+8
+8
+8
+T
+F
+T
+0
+0
+10
+10
+```
+
+Diqqət yetirin ki, yaddaş ünvanları hər dəfə kod işləndikdə dəyişə bilər.
+
+## Pointer Təyini və Çoxsaylı Pointerlər
+
+Aşağıda, bir neçə pointerin eyni hədəfə işarə etdiyi pointer təyini nümunəsi verilmişdir:
+
+```fortran
+program pointerExample
+  implicit none
+
+  integer, pointer :: a, b
+  integer, target :: t
+  integer :: n
+
+  t = 1
+  a => t
+  t = 2
+  b => t
+  n = a + b
+
+  Print *, a, b, t, n
+
+end program pointerExample
+```
+
+Yuxarıdakı kod tərtib olunub işləndikdə, nəticə aşağıdakı kimi olacaq:
+```
+2 2 2 4
+```

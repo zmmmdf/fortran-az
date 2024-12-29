@@ -1,0 +1,41 @@
+# Proqramlaşdırma Üslubu
+
+Proqramlaşdırma üslubu proqram inkişaf etdirərkən bəzi qaydalara riayət etməkdən ibarətdir. Bu yaxşı təcrübələr proqramınıza oxunaqlılıq və aydınlıq kimi dəyərlər əlavə edir.
+
+Yaxşı bir proqram aşağıdakı xüsusiyyətlərə sahib olmalıdır −
+
+- Oxunaqlılıq
+- Düzgün məntiqi struktur
+- Özünü izah edən qeydlər və şərhlər
+
+Məsələn, aşağıdakı kimi bir şərh etsəniz, çox kömək etməz −
+
+```fortran
+! 1-dən 10-a qədər dövr
+do i = 1,10
+```
+
+Ancaq, əgər binomial əmsalını hesablayırsınızsa və bu dövrü nCr üçün istifadə edirsinizsə, belə bir şərh kömək edici olar −
+
+```fortran
+! nCr hesablamaq üçün dövr
+do i = 1,10
+```
+
+- Fərqli kod səviyyələrini aydınlaşdırmaq üçün kod bloklarının daxil edilməsi.
+- Sayısal xətaların qarşısını almaq üçün özünü yoxlayan kodlar, məsələn sıfıra bölmə, mənfi həqiqi ədədin kvadrat kökü və ya mənfi həqiqi ədədin loqarifması.
+- Dəyişənlərin qeyri-qanuni və ya aralıqdan kənar dəyərlər almasının qarşısını almağa zəmanət verən kodların daxil edilməsi, yəni girişin yoxlanması.
+- Lazımsız yoxlamalar qoyulmamalıdır, çünki bu, icraatı ləngidə bilər. Məsələn −
+
+```fortran
+real :: x
+x = sin(y) + 1.0
+
+if (x >= 0.0) then
+   z = sqrt(x)
+end if
+```
+
+- Mütəxəssis alqoritmalarından istifadə edərək aydın yazılmış kod.
+- Uzun ifadələrin davamı üçün ‘&’ işarəsindən istifadə edilməsi.
+- Mənalı dəyişən adlarının verilməsi.

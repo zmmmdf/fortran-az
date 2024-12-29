@@ -1,0 +1,184 @@
+# Fortran-da Törəmə Verilən Tipi
+
+Fortran törəmə verilən tiplərinin, digər adı ilə strukturların müəyyən edilməsinə imkan verir. Bu tiplər müxtəlif növ məlumatları bir vahiddə birləşdirməyə və əlaqəli məlumatları idarə etməyi asanlaşdırmağa imkan verir. Məsələn, kitabxanadakı kitabları izləmək üçün hər kitab haqqında aşağıdakı atributları saxlamaq istəyə bilərsiniz:
+
+- Başlıq
+- Müəllif
+- Mövzu
+- Kitab ID-si
+
+---
+
+## Törəmə Verilən Tipinin Təyin Edilməsi
+
+Törəmə verilən tipini müəyyən etmək üçün `type` və `end type` ifadələrindən istifadə edirsiniz. `type` ifadəsi yeni bir verilən tipini təyin edir və bir neçə komponentə malik ola bilər. Sintaksis belədir:
+
+```fortran
+type tip_adı
+   bəyanatlar
+end type
+```
+
+Məsələn, `Books` strukturu bəyan etmək üçün aşağıdakı koddan istifadə edə bilərsiniz:
+
+```fortran
+type Books
+   character(len = 50) :: title
+   character(len = 50) :: author
+   character(len = 150) :: subject
+   integer :: book_id
+end type Books
+```
+
+---
+
+### Struktur Üzvlərinə Giriş
+
+Törəmə verilən tipindən obyekt yaratmaq üçün `type` açar sözündən istifadə edərək onu bəyan edirsiniz. Daha sonra strukturun komponentlərinə `%` simvolu vasitəsilə daxil ola bilərsiniz, bu simvol komponent seçici kimi işləyir.
+
+Aşağıda bir strukturun yaradılması və onun komponentlərinə daxil olmaq nümunəsi verilmişdir:
+
+```fortran
+type(Books) :: book1
+book1%title = "C Programming"
+book1%author = "Nuha Ali"
+book1%subject = "C Programming Tutorial"
+book1%book_id = 6495407
+```
+
+Qeyd edin ki, `%` simvolunun əvvəlində və ya sonra boşluq yoxdur.
+
+---
+
+## Nümunə: Törəmə Verilən Tipinin Təyini və Giriş
+
+```fortran
+program deriveDataType
+   ! Tip bəyanı
+   type Books
+      character(len = 50) :: title
+      character(len = 50) :: author
+      character(len = 150) :: subject
+      integer :: book_id
+   end type Books
+
+   ! Tip dəyişənlərinin bəyanı
+   type(Books) :: book1
+   type(Books) :: book2
+
+   ! Struktur komponentlərinə giriş
+   book1%title = "C Programming"
+   book1%author = "Nuha Ali"
+   book1%subject = "C Programming Tutorial"
+   book1%book_id = 6495407
+
+   book2%title = "Telecom Billing"
+   book2%author = "Zara Ali"
+   book2%subject = "Telecom Billing Tutorial"
+   book2%book_id = 6495700
+
+   ! Kitab məlumatlarının göstərilməsi
+   Print *, book1%title
+   Print *, book1%author
+   Print *, book1%subject
+   Print *, book1%book_id
+
+   Print *, book2%title
+   Print *, book2%author
+   Print *, book2%subject
+   Print *, book2%book_id
+end program deriveDataType
+```
+
+**Çıxış:**
+
+```
+C Programming                                     
+Nuha Ali                                          
+C Programming Tutorial               
+6495407
+Telecom Billing                                   
+Zara Ali                                          
+Telecom Billing Tutorial               
+6495700
+```
+
+---
+
+## Strukturların Massivi
+
+Fortran-da, həmçinin törəmə verilən tiplərindən massivlər yarada bilərsiniz. Bu, bir neçə strukturu bir massivdə qruplaşdırmağa imkan verir.
+
+Aşağıda `Books` massivinin bəyanı nümunəsi verilmişdir:
+
+```fortran
+type(Books), dimension(2) :: list
+```
+
+Sonra `%` seçicisindən istifadə edərək massiv elementlərinə daxil ola bilərsiniz. Məsələn:
+
+```fortran
+list(1)%title = "C Programming"
+list(1)%author = "Nuha Ali"
+list(1)%subject = "C Programming Tutorial"
+list(1)%book_id = 6495407
+
+list(2)%title = "Telecom Billing"
+list(2)%author = "Zara Ali"
+list(2)%subject = "Telecom Billing Tutorial"
+list(2)%book_id = 6495700
+```
+
+---
+
+## Nümunə: Strukturların Massivi
+
+```fortran
+program deriveDataType
+   ! Tip bəyanı
+   type Books
+      character(len = 50) :: title
+      character(len = 50) :: author
+      character(len = 150) :: subject
+      integer :: book_id
+   end type Books
+
+   ! Kitab massivinin bəyanı
+   type(Books), dimension(2) :: list
+
+   ! Struktur komponentlərinə giriş
+   list(1)%title = "C Programming"
+   list(1)%author = "Nuha Ali"
+   list(1)%subject = "C Programming Tutorial"
+   list(1)%book_id = 6495407
+
+   list(2)%title = "Telecom Billing"
+   list(2)%author = "Zara Ali"
+   list(2)%subject = "Telecom Billing Tutorial"
+   list(2)%book_id = 6495700
+
+   ! Kitab məlumatlarının göstərilməsi
+   Print *, list(1)%title
+   Print *, list(1)%author
+   Print *, list(1)%subject
+   Print *, list(1)%book_id
+
+   Print *, list(2)%title
+   Print *, list(2)%author
+   Print *, list(2)%subject
+   Print *, list(2)%book_id
+end program deriveDataType
+```
+
+**Çıxış:**
+
+```
+C Programming                                     
+Nuha Ali                                          
+C Programming Tutorial               
+6495407
+Telecom Billing                                   
+Zara Ali                                          
+Telecom Billing Tutorial               
+6495700
+```

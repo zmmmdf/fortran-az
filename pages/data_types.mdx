@@ -1,0 +1,131 @@
+Fortran proqramlaşdırma dili beş daxili (intrinsic) məlumat tipini təqdim edir, lakin siz öz xüsusi (custom) məlumat tiplərinizi də təyin edə bilərsiniz. Beş daxili tip bunlardır:
+
+1. Tam ədəd tipi (Integer type)  
+2. Real ədəd tipi (Real type)  
+3. Kompleks ədəd tipi (Complex type)  
+4. Məntiqi tipi (Logical type)  
+5. Simvol tipi (Character type)  
+
+---
+
+### **Tam Ədəd Tipi**  
+Tam ədəd tipi (integer) tam ədədləri saxlamaq üçün istifadə olunur. Tam ədədin ölçüsü dəyişə bilər və Fortran `huge()` adlı funksiyanı təqdim edir ki, bu da müəyyən bir tam ədəd tipinin saxlaya biləcəyi ən böyük dəyəri qaytarır. Aşağıdakı nümunədə `huge()` funksiyasının necə işlədiyi göstərilib:
+
+```fortran
+program testinteger
+  implicit none
+  integer :: largest
+  print *, huge(largest)
+end program testinteger
+```
+
+**Çıxış:**
+```
+2147483647
+```
+
+Bu nümunədə `huge(largest)` standart tam ədəd tipinin saxlaya biləcəyi ən böyük tam ədəd dəyərini qaytarır.
+
+Tam ədədin saxlaya biləcəyi baytların sayını `kind` təyin edicisi vasitəsilə də göstərə bilərsiniz. Aşağıdakı nümunədə müxtəlif ölçülərdə tam ədədlərin necə işlədiyi göstərilib:
+
+```fortran
+program testingInteger
+  implicit none
+
+  integer(kind = 2) :: shortvalue
+  integer(kind = 4) :: longvalue
+  integer(kind = 8) :: verylongvalue
+  integer(kind = 16) :: veryverylongvalue
+  integer :: defval
+
+  print *, huge(shortvalue)
+  print *, huge(longvalue)
+  print *, huge(verylongvalue)
+  print *, huge(veryverylongvalue)
+  print *, huge(defval)
+end program testingInteger
+```
+
+**Çıxış:**
+```
+32767
+2147483647
+9223372036854775807
+170141183460469231731687303715884105727
+2147483647
+```
+
+---
+
+### **Real Ədəd Tipi**  
+Fortran-da real tip (real) kəsr ədədləri, məsələn, `2.0`, `3.1415`, `-100.876` saxlamaq üçün istifadə olunur. *Fortran 90/95* real və tam ədəd tiplərində dəqiqliyi idarə etmək üçün `kind` təyin edicisini təmin edir. Standart olaraq, Fortran real ədədlər üçün tək dəqiqlikdən istifadə edir, lakin daha yüksək dəqiqlik üçün ikiqat dəqiqliyi də təyin edə bilərsiniz.
+
+Aşağıdakı nümunə real və tam ədəd tiplərindən istifadəni göstərir:
+
+```fortran
+program division
+  implicit none
+
+  real :: p, q, realResuslt
+  integer :: i, j, intResult
+
+  p = 5.0
+  q = 3.0
+  i = 8
+  j = 3
+
+  realResuslt = p / q
+  intResult = i / j
+
+  print *, realResuslt
+  print *, intResult
+end program division
+```
+
+**Çıxış:**
+```
+1.666666687
+2
+```
+
+Bu nümunədə, `realResult` onluq bölmənin nəticəsini, `intResult` isə tam bölmənin nəticəsini saxlayır.
+
+---
+
+### **Kompleks Tip**  
+Kompleks tip kompleks ədədləri saxlamaq üçün istifadə olunur. Kompleks ədəd bir real hissədən və bir xəyali hissədən ibarətdir. Məsələn, `3.0 - 5.0i` kompleks ədədi `3.0` real hissəsini və `-5.0` xəyali hissəsini ehtiva edir.
+
+---
+
+### **Məntiqi Tip**  
+Məntiqi tip (logical) boolean (məntiqi) dəyərləri saxlamaq üçün istifadə olunur. Bu tipdə yalnız iki dəyər mövcuddur: `.true.` və `.false.`. Bu dəyərlər müqayisələr və məntiqi əməliyyatlar üçün istifadə edilir.
+
+---
+
+### **Simvol Tipi**  
+Simvol tipi (character) fərdi simvolları və ya sətirləri saxlamaq üçün istifadə olunur. Sətirin uzunluğunu `len` təyin edicisi vasitəsilə göstərə bilərsiniz. Əgər uzunluq göstərilməsə, standart olaraq `1` qəbul edilir.
+
+Məsələn:
+```fortran
+character(len = 75) :: name
+name = "Ziya Mammadov"
+```
+
+Burada `name` maksimum 75 simvoldan ibarət sətri saxlaya bilər. 
+
+```fortran
+print *, name(1:4)
+```
+
+Bu alt sətri `"Ziya"` kimi çap edəcək.
+
+---
+
+### **Dolayı Təyin Etmə**  
+Fortran-ın köhnə versiyaları dolayı (implicit) təyin etməyə imkan verirdi, burada dəyişənləri açıq şəkildə elan etmək lazım deyildi. Dəyişənin tipi ilk hərfinə əsasən müəyyən edilirdi. Məsələn, `i`, `j`, `k`, `l`, `m`, və ya `n` ilə başlayan dəyişənlər tam ədəd, qalanları isə real tipdə qəbul edilirdi.
+
+Ancaq müasir Fortran proqramlaşdırmasında bütün dəyişənlərin açıq şəkildə elan edilməsi tələb olunur. Bu yaxşı proqramlaşdırma təcrübəsi hesab edilir və `implicit none` bəyanatından istifadə edərək dolayı təyinetməni qadağan edə bilərsiniz. Bu, bütün dəyişənlərin açıq şəkildə elan edilməsini tələb edir:
+
+```fortran
+implicit none
+```

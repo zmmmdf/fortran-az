@@ -1,0 +1,55 @@
+# Debugger Aləti ilə Proqram Xətalarını Tapmaq
+
+Debugger aləti proqramlarda xətaları axtarmaq üçün istifadə olunur.
+
+Debugger proqramı kodun üzərində addım-addım irəliləyir və proqramın icrası zamanı dəyişənlərdə və digər məlumat obyektlərindəki dəyərləri yoxlamağa imkan verir.
+
+Bu alət mənbə kodunu yükləyir və proqramın debugger daxilində işləməsi nəzərdə tutulur. Debuggerlər bir proqramı aşağıdakı yollarla debug edirlər:
+
+- **Breakpoints (Dayanma nöqtələri) təyin etməklə**
+- **Mənbə kodunun addım-addım izlənməsi ilə**
+- **Watch points (İzləmə nöqtələri) təyin etməklə**
+
+### Breakpoints (Dayanma Nöqtələri)
+
+Dayanma nöqtələri proqramın harada dayanmalı olduğunu göstərir, xüsusən də kritik kod sətirindən sonra. Dəyişənlər dayanma nöqtəsində yoxlandıqdan sonra proqramın icrası davam edir.
+
+Debugger proqramları mənbə kodunu sətir-sətir yoxlamaq imkanına malikdir.
+
+### Watch Points (İzləmə Nöqtələri)
+
+İzləmə nöqtələri müəyyən dəyişənlərin dəyərlərinin yoxlanması lazım olan nöqtələrdir, xüsusən də oxuma və ya yazma əməliyyatlarından sonra.
+
+---
+
+## gdb Debuggeri
+
+**gdb** debuggeri, yəni GNU debugger, Linux əməliyyat sistemi ilə gəlir. X Windows sistemi üçün **gdb** qrafik interfeys ilə təmin olunur və bu proqram **xxgdb** adlanır.
+
+Aşağıdakı cədvəl gdb-də istifadə olunan bəzi əmr nümunələrini təqdim edir:
+
+| **Əmr**   | **Təyinatı** |
+|-----------|--------------|
+| **break** | Dayanma nöqtəsi təyin edir. |
+| **run**   | Proqramın icrasına başlayır. |
+| **cont**  | İcra prosesini davam etdirir. |
+| **next**  | Mənbə kodunun yalnız növbəti sətirini icra edir, funksiya çağırışına daxil olmur. |
+| **step**  | Mənbə kodunun növbəti sətirini icra edir, əgər bu funksiya çağırışıdırsa, funksiyaya daxil olur. |
+
+---
+
+## dbx Debuggeri
+
+Linux üçün digər bir debugger aləti **dbx** debuggeridir.
+
+Aşağıdakı cədvəl dbx-də istifadə olunan bəzi əmr nümunələrini təqdim edir:
+
+| **Əmr**           | **Təyinatı** |
+|--------------------|--------------|
+| **stop[var]**      | `var` dəyişəninin dəyəri dəyişdikdə dayanma nöqtəsi təyin edir. |
+| **stop in [proc]** | Prosedur `proc` daxil edildikdə icranı dayandırır. |
+| **stop at [line]** | Müəyyən edilmiş sətirdə dayanma nöqtəsi təyin edir. |
+| **run**            | Proqramın icrasına başlayır. |
+| **cont**           | İcra prosesini davam etdirir. |
+| **next**           | Mənbə kodunun yalnız növbəti sətirini icra edir, funksiya çağırışına daxil olmur. |
+| **step**           | Mənbə kodunun növbəti sətirini icra edir, əgər bu funksiya çağırışıdırsa, funksiyaya daxil olur. |

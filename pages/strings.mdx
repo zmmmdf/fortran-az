@@ -1,0 +1,259 @@
+# Fortran String Handling
+
+## Ümumi Məlumat
+
+Fortran dili simvolları həm tək simvollar, həm də ardıcıl simvollar (stringlər) kimi idarə edə bilir. Bir stringin uzunluğu bir simvol ola bilər və ya boş ola bilər. Fortran-da simvol sabitləri ya tək, ya da ikiqat tırnak içərisində yerləşdirilir.
+
+İçsel `character` verilənlər tipi həm simvolları, həm də stringləri saxlamaq üçün istifadə olunur. Bir stringin uzunluğu `len` təyin edicisi ilə göstərilə bilər və əgər təyin edilməzsə, standart olaraq uzunluğu 1 olaraq qəbul edilir. Bir stringin içindəki hər bir simvola mövqeyinə əsasən, sol tərəfdən 1-dən başlayaraq daxil ola bilərsiniz.
+
+## String Deklarasiyası
+
+Bir stringi elan etmək, digər dəyişənləri elan etmək kimi oxşardır:
+
+```fortran
+type-specifier :: variable_name
+```
+
+Məsələn:
+
+```fortran
+character(len = 20) :: firstname, surname
+```
+
+Bir stringə dəyərləri belə təyin edə bilərsiniz:
+
+```fortran
+character(len = 40) :: name
+name = "Zara Ali"
+```
+
+### Məsələn: Character Verilən Tipini Deklare Etmək və İstifadə Etmək
+
+```fortran
+program hello
+  implicit none
+
+  character(len = 15) :: surname, firstname 
+  character(len = 6) :: title 
+  character(len = 25) :: greetings
+  
+  title = 'Mr.' 
+  firstname = 'Rowan' 
+  surname = 'Atkinson'
+  greetings = 'A big hello from Mr. Beans'
+  
+  print *, 'Here is', title, firstname, surname
+  print *, greetings
+  
+end program hello
+```
+
+**Çıxış:**
+
+```
+Here is Mr.   Rowan          Atkinson       
+A big hello from Mr. Beans
+```
+
+## String Birleştirmə
+
+Birleştirmə operatoru `//` stringləri birləşdirir. Budur, bir nümunə:
+
+```fortran
+program hello
+  implicit none
+
+  character(len = 15) :: surname, firstname 
+  character(len = 6) :: title 
+  character(len = 40) :: name
+  character(len = 25) :: greetings
+  
+  title = 'Mr.' 
+  firstname = 'Rowan' 
+  surname = 'Atkinson'
+  
+  name = title // firstname // surname
+  greetings = 'A big hello from Mr. Beans'
+  
+  print *, 'Here is', name
+  print *, greetings
+  
+end program hello
+```
+
+**Çıxış:**
+
+```
+Here is Mr. Rowan Atkinson       
+A big hello from Mr. Beans
+```
+
+## Alt Stringlər Çıxarma
+
+Fortran-da bir stringin başlanğıc və son indekslərini göstərərək alt string çıxara bilərsiniz. Bu, "extent specifier" adlanır. Budur, bir nümunə:
+
+```fortran
+program subString
+  character(len = 11) :: hello
+  hello = "Hello World"
+  print *, hello(7:11)
+end program subString
+```
+
+**Çıxış:**
+
+```
+World
+```
+
+### Məsələn: Tarix və Vaxt Məlumatlarını Çıxarma
+
+```fortran
+program datetime
+  implicit none
+
+  character(len = 8) :: dateinfo  ! ccyymmdd
+  character(len = 4) :: year, month*2, day*2
+  character(len = 10) :: timeinfo ! hhmmss.sss
+  character(len = 2)  :: hour, minute, second*6
+
+  call date_and_time(dateinfo, timeinfo)
+
+  ! Breaking dateinfo into year, month, and day
+  year = dateinfo(1:4)
+  month = dateinfo(5:6)
+  day = dateinfo(7:8)
+
+  print *, 'Date String:', dateinfo
+  print *, 'Year:', year
+  print *, 'Month:', month
+  print *, 'Day:', day
+
+  ! Breaking timeinfo into hour, minute, and second
+  hour = timeinfo(1:2)
+  minute = timeinfo(3:4)
+  second = timeinfo(5:10)
+
+  print *, 'Time String:', timeinfo
+  print *, 'Hour:', hour
+  print *, 'Minute:', minute
+  print *, 'Second:', second
+   
+end program datetime
+```
+
+**Çıxış:**
+
+```
+Date String: 20140803
+Year: 2014
+Month: 08
+Day: 03
+Time String: 075835.466
+Hour: 07
+Minute: 58
+Second: 35.466
+```
+
+## Stringləri Kəsmək
+
+`trim` funksiyası stringdən son boşluqları çıxarır. Budur, bir nümunə:
+
+```fortran
+program trimString
+  implicit none
+
+  character(len = *), parameter :: fname = "Susanne", sname = "Rizwan"
+  character(len = 20) :: fullname 
+
+  fullname = fname // " " // sname  ! Concatenating the strings
+
+  print *, fullname, ", the beautiful dancer from the east!"
+  print *, trim(fullname), ", the beautiful dancer from the east!"
+  
+end program trimString
+```
+
+**Çıxış:**
+
+```
+Susanne Rizwan      , the beautiful dancer from the east!
+Susanne Rizwan, the beautiful dancer from the east!
+```
+
+## Stringlərin Sol və Sağ Tənzimlənməsi
+
+`adjustl` funksiyası ön boşluqları çıxarır və onları son boşluqlar kimi əlavə edir. `adjustr` funksiyası isə əksinə, son boşluqları çıxarır və onları ön boşluqlar kimi əlavə edir.
+
+### Məsələn:
+
+```fortran
+program hello
+  implicit none
+
+  character(len = 15) :: surname, firstname 
+  character(len = 6) :: title 
+  character(len = 40) :: name
+  character(len = 25) :: greetings
+  
+  title = 'Mr. ' 
+  firstname = 'Rowan' 
+  surname = 'Atkinson'
+  greetings = 'A big hello from Mr. Beans'
+  
+  name = adjustl(title) // adjustl(firstname) // adjustl(surname)
+  print *, 'Here is', name
+  print *, greetings
+  
+  name = adjustr(title) // adjustr(firstname) // adjustr(surname)
+  print *, 'Here is', name
+  print *, greetings
+  
+  name = trim(title) // trim(firstname) // trim(surname)
+  print *, 'Here is', name
+  print *, greetings
+
+end program hello
+```
+
+**Çıxış:**
+
+```
+Here is Mr. Rowan  Atkinson           
+A big hello from Mr. Beans
+Here is Mr. Rowan Atkinson    
+A big hello from Mr. Beans
+Here is Mr.RowanAtkinson                        
+A big hello from Mr. Beans
+```
+
+## Stringdə Alt String Axtarma
+
+`index` funksiyası bir stringin digərinin alt stringi olub olmadığını yoxlayır. Bu funksiya alt stringin başlanğıc indeksini qaytarır və tapılmadığı halda 0 qaytarır.
+
+### Məsələn:
+
+```fortran
+program hello
+  implicit none
+
+  character(len=30) :: myString
+  character(len=10) :: testString
+  
+  myString = 'This is a test'
+  testString = 'test'
+  
+  if (index(myString, testString) == 0) then
+    print *, 'test is not found'
+  else
+    print *, 'test is found at index: ', index(myString, testString)
+  end if
+  
+end program hello
+```
+
+**Çıxış:**
+
+```
+test is found at index: 11
+```

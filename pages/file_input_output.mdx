@@ -1,0 +1,143 @@
+## Fortran-da Fayllarla İşləmə
+
+Bu məqalə Fortran-da fayllardan məlumat oxumaq və fayllara məlumat yazmaq prosesini, o cümlədən fayl açmaq, yazmaq, oxumaq və bağlamaq kimi əməliyyatları izah edir. Aşağıda məzmunun xülasəsi və izahı verilmişdir:
+
+---
+
+### 1. **Faylların Açılması və Bağlanması**
+   - Fayldan oxumağa və ya fayla yazmağa başlamazdan əvvəl onu `OPEN` ifadəsi ilə açmaq lazımdır.
+   - `OPEN` ifadəsi sadə formada belə ola bilər:
+     ```fortran
+     open (unit = number, file = "name")
+     ```
+     Lakin fayl detalları (fayla giriş, format, status və s.) ilə bağlı əlavə təyin edicilərdən istifadə edərək daha ətraflı forma da mümkündür.
+
+#### `OPEN` İfadəsində Əsas Təyin Edicilər:
+   - **UNIT=**: Fayl üçün unikal nömrəni (9-99 arasında) göstərir. Bu nömrə sonrakı əməliyyatlarda istifadə olunur.
+   - **IOSTAT=**: Açma ifadəsindən qaytarılan status kodunu saxlamaq üçün tam ədədi dəyişəni göstərir. 0 dəyəri uğurlu əməliyyatı, qeyri-sıfır dəyəri isə səhvi ifadə edir.
+   - **ERR=**: Səhv baş verdikdə idarənin ötürüləcəyi etiketi təyin edir.
+   - **FILE=**: Faylın adını göstərir.
+   - **STATUS=**: Faylın əvvəlki vəziyyətini göstərir (`NEW`, `OLD` və ya `SCRATCH` ola bilər).
+   - **ACCESS=**: Fayla giriş rejimini göstərir (`SEQUENTIAL` və ya `DIRECT`), standart olaraq `SEQUENTIAL` seçilir.
+   - **FORM=**: Faylın formatlı və ya formatsız olmasını göstərir, standart olaraq `UNFORMATTED` seçilir.
+   - **RECL=**: Fayla birbaşa giriş zamanı qeydlərin uzunluğunu təyin edir.
+
+   Fayl açıldıqdan sonra `READ` və ya `WRITE` ifadələri ilə məlumat oxumaq və ya yazmaq mümkündür. Əməliyyatlar bitdikdən sonra faylı `CLOSE` ifadəsi ilə bağlamaq vacibdir.
+
+   **Fayl açma nümunəsi**:
+   ```fortran
+   open(1, file = 'data1.dat', status = 'new')
+   ```
+   Bu nümunə yazmaq üçün `data1.dat` adlı yeni fayl açır.
+
+---
+
+### 2. **Fayllara Məlumat Yazmaq**
+   - Fayla məlumat yazmaq üçün `WRITE` ifadəsindən istifadə olunur. Məsələn:
+     ```fortran
+     write(1,*) x(i), y(i)
+     ```
+     Bu ifadə `x(i)` və `y(i)` dəyişənlərinin dəyərlərini 1 nömrəli fayla yazır.
+
+   **Tam Nümunə: Fayla Məlumat Yazmaq**  
+   Aşağıdakı Fortran proqramı `x(i)` və `y(i)` dəyişənlərinin dəyərlərini fayla yazır:
+   ```fortran
+   program outputdata
+   implicit none
+
+   real, dimension(100) :: x, y
+   integer :: i
+
+   ! Məlumatın ilkinləşdirilməsi
+   do i = 1, 100
+      x(i) = i * 0.1
+      y(i) = sin(x(i)) * (1 - cos(x(i) / 3.0))
+   end do
+
+   ! Məlumatın fayla yazılması
+   open(1, file = 'data1.dat', status = 'new')
+   do i = 1, 100
+      write(1,*) x(i), y(i)
+   end do
+   close(1)
+   end program outputdata
+   ```
+
+   Bu proqram `x(i)` və `y(i)` dəyərlərini `data1.dat` faylına yazır.
+
+---
+
+### 3. **Fayllardan Məlumat Oxumaq**
+   - Fayldan məlumat oxumaq üçün `READ` ifadəsindən istifadə edilir. Məsələn:
+     ```fortran
+     read(2,*) p(i), q(i)
+     ```
+     Bu ifadə 2 nömrəli fayldan məlumatları `p(i)` və `q(i)` massivlərinə oxuyur.
+
+   **Tam Nümunə: Məlumatın Yazılması və Oxunması**  
+   Aşağıdakı proqram əvvəlcə məlumatları fayla yazır, sonra fayldan oxuyur və ekrana çıxarır:
+   ```fortran
+   program outputdata
+   implicit none
+
+   real, dimension(100) :: x, y
+   real, dimension(100) :: p, q
+   integer :: i
+
+   ! Məlumatın ilkinləşdirilməsi
+   do i = 1, 100
+      x(i) = i * 0.1
+      y(i) = sin(x(i)) * (1 - cos(x(i) / 3.0))
+   end do
+
+   ! Məlumatın fayla yazılması
+   open(1, file = 'data1.dat', status = 'new')
+   do i = 1, 100
+      write(1,*) x(i), y(i)
+   end do
+   close(1)
+
+   ! Fayldan məlumatın oxunması
+   open(2, file = 'data1.dat', status = 'old')
+   do i = 1, 100
+      read(2,*) p(i), q(i)
+   end do
+   close(2)
+
+   ! Oxunan məlumatın ekrana çıxarılması
+   do i = 1, 100
+      write(*,*) p(i), q(i)
+   end do
+   end program outputdata
+   ```
+
+   **Gözlənilən Nəticə**:  
+   Proqram icra edildikdə, `x(i)` və `y(i)` dəyərləri fayla yazılır, sonra oxunur və aşağıdakı nəticələr çap edilir:
+   ```
+   0.100000001  5.54589933E-05
+   0.200000003  4.41325130E-04
+   0.300000012  1.47636665E-03
+   0.400000006  3.45637114E-03
+   ...
+   9.90000057  -0.909344316
+   10.0000000  -1.07807255
+   ```
+
+---
+
+### 4. **Faylların Bağlanması**
+   - Açıq faylı bağlamaq üçün `CLOSE` ifadəsi istifadə olunur:
+     ```fortran
+     close(1)
+     ```
+   - Faylları bağlamaq vacibdir, çünki bu, resursları azad edir və məlumatların düzgün şəkildə saxlanılmasını təmin edir.
+
+---
+
+### Əsas Məsələlər:
+   - **Faylların Açılması**: Faylları oxumaq və ya yazmaq üçün əvvəlcə açmaq lazımdır.
+   - **Fayllara Yazmaq**: `WRITE` ifadəsi fayla məlumat yazmaq üçün istifadə olunur.
+   - **Fayllardan Oxumaq**: `READ` ifadəsi fayldan məlumat oxumaq üçün istifadə olunur.
+   - **Faylları Bağlamaq**: Əməliyyatlardan sonra faylı bağlamaq vacibdir.
+
+Fortran-da bu fayl əməliyyatlarından istifadə edərək böyük məlumat dəstləri ilə işləmək və ya məlumatların davamlı saxlanması prosesini asanlaşdırmaq mümkündür.

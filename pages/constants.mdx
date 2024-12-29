@@ -1,0 +1,104 @@
+### Proqramlaşdırmada Sabitlər (Constants)
+
+**Sabitlər**, proqramın icrası zamanı dəyişdirilə bilməyən sabit dəyərləri ifadə edir. Bu sabit dəyərlər **literals** (məzmun ifadələri) olaraq da adlandırılır.
+
+Sabitlər tam ədəd, onluq ədəd, simvol, kompleks və ya sətir sabitləri ola bilər. Məntiqi sabitlər yalnız iki dəyərə malikdir: `.true.` və `.false.`.
+
+Sabitlər adi dəyişənlər kimi istifadə olunur, lakin onların dəyəri təyin edildikdən sonra dəyişdirilə bilməz.
+
+---
+
+## **Sabitlərin Növləri**
+
+Sabitlər iki növə ayrılır:
+
+1. **Literal Sabitlər**  
+2. **Adlandırılmış Sabitlər**
+
+---
+
+### **Literal Sabitlər**
+
+Literal sabitlər bir dəyərə malikdir, lakin onların adı yoxdur.
+
+#### **Literal Sabitlərə Nümunələr**
+
+| Tip                 | Nümunələr                                               |
+|---------------------|---------------------------------------------------------|
+| Tam ədəd sabitləri  | 0, 1, -1, 300, 123456789                                |
+| Real sabitlər       | 0.0, 1.0, -1.0, 123.456, 7.1E+10, -52.715E-30          |
+| Kompleks sabitlər   | (0.0, 0.0), (-123.456E+30, 987.654E-29)                |
+| Məntiqi sabitlər    | `.true.`, `.false.`                                     |
+| Simvol sabitləri    | `"PQR"`, `"a"`, `"123'abc$%#@!"`, `'PQR'`, `'a'`       |
+
+---
+
+### **Adlandırılmış Sabitlər**
+
+Adlandırılmış sabitlər həm dəyərə, həm də ada malikdir.
+
+Bu sabitlər proqramın və ya prosedurun əvvəlində dəyişənlər kimi təyin edilir, lakin `parameter` atributu ilə sabit olduqları vurğulanır.  
+
+**Məsələn:**
+```fortran
+real, parameter :: pi = 3.1415927
+```
+
+---
+
+## **Nümunə Proqram: Qravitasiya Yerdəyişməsi**
+
+Aşağıdakı proqram cazibə qüvvəsi təsirində şaquli hərəkət nəticəsində yaranan yerdəyişməni hesablayır:
+
+```fortran
+program gravitationalDisp
+
+! Bu proqram cazibə qüvvəsi altında şaquli yerdəyişməni hesablayır
+implicit none  
+
+   ! Qravitasiya sürətlənməsi sabiti
+   real, parameter :: g = 9.81   
+
+   ! Dəyişənlərin təyini
+   real :: s  ! Yerdəyişmə   
+   real :: t  ! Zaman  
+   real :: u  ! İlkin sürət  
+   
+   ! Dəyərlərin təyini 
+   t = 5.0   
+   u = 50  
+   
+   ! Yerdəyişmə hesablanması   
+   s = u * t - g * (t**2) / 2  
+   
+   ! Nəticənin çap edilməsi
+   print *, "Zaman = ", t
+   print *, "Yerdəyişmə = ", s  
+   
+end program gravitationalDisp
+```
+
+---
+
+### **Çıxış**
+
+Yuxarıdakı kod tərtib edilib icra edildikdə aşağıdakı nəticəni verir:
+
+```
+Zaman = 5.00000000    
+Yerdəyişmə = 127.374992    
+```
+
+---
+
+### **Proqramın İzahı**
+
+- **`real, parameter :: g = 9.81`**: `g` dəyişəni sabit kimi təyin edilir, çünki cazibə qüvvəsi dəyişməzdir.
+- **`t` və `u`**: Bu dəyişənlər zaman və ilkin sürəti ifadə edir.
+- **Yerdəyişmə düsturu**: `u * t - g * (t**2) / 2` 
+  Bu düsturda ilkin sürət (`u`) və cazibə qüvvəsi (`g`) istifadə edilir.
+- **`print` əmrindən** istifadə etməklə nəticələr çap edilir.
+
+---
+
+Bu proqram sabitlərin istifadəsini və onların tətbiqi zamanı necə dəyərləndirildiyini praktik şəkildə göstərir.

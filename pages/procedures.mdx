@@ -1,0 +1,308 @@
+# Fortran Prosedurları və Funksiyalar
+
+Prosedur, müəyyən bir vəzifəni yerinə yetirən və proqramınızdan çağırıla bilən bəyanatların qrupudur. Məlumat (və ya verilənlər) çağıran proqramdan prosedura arqumentlər olaraq ötürülür.
+
+İki növ prosedur mövcuddur:
+
+- Funksiyalar
+- Subrutinlər
+
+### Funksiya
+
+Funksiya, tək bir qiymət qaytaran prosedurdur. Funksiya öz arqumentlərini dəyişdirməməlidir.
+
+Qaytarılan qiymət funksiyanın dəyəri kimi bilinir və funksiyanın adı ilə göstərilir.
+
+**Sintaksis**
+
+Funksiya üçün sintaksis aşağıdakı kimidir:
+
+```fortran
+function name(arg1, arg2, ....)  
+   [declarations, including those for the arguments]   
+   [executable statements] 
+end function [name]
+```
+
+Aşağıdakı nümunə `area_of_circle` adlı funksiyanı nümayiş etdirir. Bu funksiya `r` radiusuna malik dairənin sahəsini hesablayır.
+
+**Canlı Demo**
+
+```fortran
+program calling_func
+   real :: a
+   a = area_of_circle(2.0) 
+   
+   Print *, "The area of a circle with radius 2.0 is"
+   Print *, a
+end program calling_func
+```
+
+```fortran
+! bu funksiya radiusu r olan dairənin sahəsini hesablayır  
+function area_of_circle (r)  
+
+! funksiyanın nəticəsi     
+implicit none      
+
+   ! dummy arqumentlər        
+   real :: area_of_circle   
+   
+   ! lokal dəyişənlər 
+   real :: r     
+   real :: pi
+   
+   pi = 4 * atan (1.0)     
+   area_of_circle = pi * r**2  
+   
+end function area_of_circle
+```
+
+Yuxarıdakı proqramı tərtib edib işlətdikdə, aşağıdakı nəticə əldə edilir:
+
+```
+The area of a circle with radius 2.0 is
+   12.5663710   
+```
+
+Diqqət yetirin ki:
+
+- `implicit none` həm əsas proqramda, həm də prosedurda göstərilməlidir.
+- Çağırılan funksiyadakı `r` arqumentinə `dummy argument` deyilir.
+
+### Nəticə Seçimi
+
+Əgər qaytarılan dəyəri funksiyanın adı ilə deyil, başqa bir adla saxlamaq istəyirsinizsə, `result` seçimindən istifadə edə bilərsiniz.
+
+Qaytarılan dəyişənin adını aşağıdakı kimi göstərə bilərsiniz:
+
+```fortran
+function name(arg1, arg2, ....) result (return_var_name)  
+   [declarations, including those for the arguments]   
+   [executable statements] 
+end function [name]
+```
+
+### Subrutin
+
+Subrutin bir dəyər qaytarmır, lakin arqumentlərini dəyişdirə bilər.
+
+**Sintaksis**
+
+```fortran
+subroutine name(arg1, arg2, ....)    
+   [declarations, including those for the arguments]    
+   [executable statements]  
+end subroutine [name]
+```
+
+**Subrutin Çağırmaq**
+
+Subrutin çağırmaq üçün `call` bəyanatından istifadə etməlisiniz.
+
+Aşağıdakı nümunə `swap` adlı subrutinin təyinini və istifadəsini nümayiş etdirir. Bu subrutin öz arqumentlərinin dəyərlərini dəyişdirir.
+
+**Canlı Demo**
+
+```fortran
+program calling_func
+implicit none
+
+   real :: a, b
+   a = 2.0
+   b = 3.0
+   
+   Print *, "Before calling swap"
+   Print *, "a = ", a
+   Print *, "b = ", b
+   
+   call swap(a, b)
+   
+   Print *, "After calling swap"
+   Print *, "a = ", a
+   Print *, "b = ", b
+   
+end program calling_func
+```
+
+```fortran
+subroutine swap(x, y) 
+implicit none
+
+   real :: x, y, temp   
+   
+   temp = x  
+   x = y 
+   y = temp  
+   
+end subroutine swap
+```
+
+Yuxarıdakı proqramı tərtib edib işlətdikdə, aşağıdakı nəticə əldə edilir:
+
+```
+Before calling swap
+a = 2.00000000    
+b = 3.00000000    
+After calling swap
+a = 3.00000000    
+b = 2.00000000   
+```
+
+### Arqumentlərin İntensiyasını Göstərmək
+
+`intent` atributu, arqumentlərin prosedurda hansı məqsədlə istifadə ediləcəyini göstərməyə imkan verir. Aşağıdakı cədvəl `intent` atributunun qiymətlərini təqdim edir:
+
+| Dəyər  | İstifadə Edilir  | İzah |
+|--------|------------------|------|
+| `in`   | intent(in)       | Giriş dəyərləri kimi istifadə edilir, funksiyada dəyişdirilmir |
+| `out`  | intent(out)      | Çıxış dəyəri kimi istifadə edilir, üstü yazılır |
+| `inout`| intent(inout)    | Arqumentlər həm istifadə edilir, həm də üstü yazılır |
+
+Aşağıdakı nümunə bu anlayışı nümayiş etdirir:
+
+**Canlı Demo**
+
+```fortran
+program calling_func
+implicit none
+
+   real :: x, y, z, disc
+   
+   x = 1.0
+   y = 5.0
+   z = 2.0
+   
+   call intent_example(x, y, z, disc)
+   
+   Print *, "The value of the discriminant is"
+   Print *, disc
+   
+end program calling_func
+```
+
+```fortran
+subroutine intent_example (a, b, c, d)     
+implicit none     
+
+   ! dummy arqumentlər      
+   real, intent (in) :: a     
+   real, intent (in) :: b      
+   real, intent (in) :: c    
+   real, intent (out) :: d   
+   
+   d = b * b - 4.0 * a * c 
+   
+end subroutine intent_example
+```
+
+Yuxarıdakı proqramı tərtib edib işlətdikdə, aşağıdakı nəticə əldə edilir:
+
+```
+The value of the discriminant is
+   17.0000000    
+```
+
+### Rekursiv Prosedurlar
+
+Rekursiya, proqramlaşdırma dilinin bir funksiyanı eyni funksiyanın daxilində çağırmağa icazə verdiyi zaman baş verir. Bu, funksiyanın rekursiv çağırışı adlanır.
+
+Bir prosedur özünü, birbaşa və ya dolayı yolla çağırarsa, bu, rekursiv prosedur adlanır. Bu cür proseduru təyin etmək üçün `recursive` sözünü onun təyini öncəsində yazmalısınız.
+
+Funksiya rekursiv şəkildə istifadə edildikdə, `result` seçimi istifadə edilməlidir.
+
+Aşağıdakı nümunə, verilmiş bir ədədin faktoriyasını rekursiv prosedur istifadə edərək hesablayır:
+
+```fortran
+program calling_func
+implicit none
+
+   integer :: i, f
+   i = 15
+   
+   Print *, "The value of factorial 15 is"
+   f = myfactorial(15)
+   Print *, f
+   
+end program calling_func
+```
+
+```fortran
+! n (n!) faktoriyasını hesablayır      
+recursive function myfactorial (n) result (fac)  
+! funksiyanın nəticəsi     
+implicit none     
+
+   ! dummy arqumentlər     
+   integer :: fac     
+   integer, intent (in) :: n     
+   
+   select case (n)         
+      case (0:1)         
+         fac = 1         
+      case default    
+         fac = n * myfactorial (n-1)  
+   end select 
+   
+end function myfactorial
+```
+
+### Daxili Prosedurlar
+
+Bir prosedur proqramın daxilində yerləşirsə, buna proqramın daxili proseduru deyilir. Daxili prosedurun yerləşdiyi sintaksis aşağıdakı kimidir:
+
+```fortran
+program program_name     
+   implicit none         
+   ! tip bəyanatları         
+   ! icra edilə bilən bəyanatlar    
+   . . .     
+   contains         
+   ! daxili prosedurlar      
+   . . .  
+end program program_name
+```
+
+Aşağıdakı nümunə bu anlayışı nümayiş etdirir:
+
+**Canlı Demo**
+
+```fortran
+program mainprog  
+implicit none 
+
+   real :: a, b 
+   a = 2.0
+   b = 3.0
+   
+   Print *, "Before calling swap"
+   Print *, "a = ", a
+   Print *, "b = ", b
+   
+   call swap(a, b)
+   
+   Print *, "After calling swap"
+   Print *, "a = ", a
+   Print *, "b = ", b
+ 
+contains   
+   subroutine swap(x, y)     
+      real :: x, y, temp      
+      temp = x 
+      x = y  
+      y = temp   
+   end subroutine swap 
+   
+end program mainprog   
+```
+
+Yuxarıdakı proqramı tərtib edib işlətdikdə, aşağıdakı nəticə əldə edilir:
+
+```
+Before calling swap
+a = 2.00000000    
+b = 3.00000000    
+After calling swap
+a = 3.00000000    
+b = 2.00000000    
+```

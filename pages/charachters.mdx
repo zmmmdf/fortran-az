@@ -1,0 +1,229 @@
+# Fortran Dilində Simvolların Manipulyasiyası
+
+Fortran dili simvolları tək simvol və ya ardıcıl sətirlər kimi qəbul edə bilər.
+
+Simvollar əsas simvol dəstindən götürülmüş istənilən simvol ola bilər: hərflər, onluq rəqəmlər, alt xətt və 21 xüsusi simvol.
+
+Bir simvol sabiti sabit qiymətli bir simvol sətiridir.
+
+**`character`** adlı daxili məlumat tipi simvolları və sətirləri saxlayır. Sətirin uzunluğu `len` təyinedicisi ilə göstərilə bilər. Əgər uzunluq təyin edilməzsə, bu, 1 olaraq qəbul edilir. Sətir daxilindəki fərdi simvollara mövqeyinə görə müraciət edə bilərsiniz; sol tərəfdəki ilk simvol mövqe 1-dədir.
+
+## Simvolun Bəyannaməsi
+
+Simvol tipli məlumatları bəyan etmək digər dəyişənlər kimi aparılır:
+
+```fortran
+type-specifier :: variable_name
+```
+
+Məsələn:
+
+```fortran
+character :: reply, sex
+```
+
+Dəyərləri aşağıdakı kimi təyin edə bilərsiniz:
+
+```fortran
+reply = 'N'
+sex = 'F'
+```
+
+Aşağıdakı nümunə simvol tipli məlumatların bəyannaməsini və istifadəsini göstərir:
+
+```fortran
+program hello
+implicit none
+
+   character(len = 15) :: surname, firstname 
+   character(len = 6) :: title 
+   character(len = 25):: greetings
+   
+   title = 'Mr. ' 
+   firstname = 'Rowan ' 
+   surname = 'Atkinson'
+   greetings = 'A big hello from Mr. Bean'
+   
+   print *, 'Here is ', title, firstname, surname
+   print *, greetings
+   
+end program hello
+```
+
+Bu proqram tərtib edildikdə və icra edildikdə aşağıdakı nəticəni verir:
+
+```
+Here is Mr. Rowan Atkinson       
+A big hello from Mr. Bean
+```
+
+## Simvolların Birləşdirilməsi
+
+Simvol birləşdirmə operatoru `//`, simvolları birləşdirir.
+
+Aşağıdakı nümunə bunu nümayiş etdirir:
+
+```fortran
+program hello
+implicit none
+
+   character(len = 15) :: surname, firstname 
+   character(len = 6) :: title 
+   character(len = 40):: name
+   character(len = 25):: greetings
+   
+   title = 'Mr. ' 
+   firstname = 'Rowan ' 
+   surname = 'Atkinson'
+   
+   name = title//firstname//surname
+   greetings = 'A big hello from Mr. Bean'
+   
+   print *, 'Here is ', name
+   print *, greetings
+   
+end program hello
+```
+
+Bu proqram tərtib edildikdə və icra edildikdə aşağıdakı nəticəni verir:
+
+```
+Here is Mr.Rowan Atkinson       
+A big hello from Mr.Bean
+```
+
+---
+
+## Bəzi Simvol Funksiyaları
+
+Aşağıda bəzi ümumi istifadə olunan simvol funksiyaları və onların təsviri verilmişdir:
+
+| **№** | **Funksiya və Təsviri**                                                                            |
+|-------|----------------------------------------------------------------------------------------------------|
+| **1** | **`len(string)`**: Sətirin uzunluğunu qaytarır.                                                   |
+| **2** | **`index(string, substring)`**: Sətirdə alt sətirin yerini tapır, əgər tapılmazsa 0 qaytarır.      |
+| **3** | **`achar(int)`**: Tam ədədi simvola çevirir.                                                      |
+| **4** | **`iachar(c)`**: Simvolu tam ədədə çevirir.                                                       |
+| **5** | **`trim(string)`**: Sətirdən son boşluqları silir.                                                |
+| **6** | **`scan(string, chars)`**: "string" içində "chars" içində olan simvolları tapır, mövqeyi qaytarır. |
+| **7** | **`verify(string, chars)`**: "chars" içində olmayan ilk simvolu tapır, mövqeyi qaytarır.           |
+| **8** | **`adjustl(string)`**: Sətiri sola əsaslandırır.                                                  |
+| **9** | **`adjustr(string)`**: Sətiri sağa əsaslandırır.                                                  |
+| **10**| **`len_trim(string)`**: Sətirin uzunluğunu boşluqları çıxararaq qaytarır.                         |
+| **11**| **`repeat(string, ncopy)`**: Sətiri `ncopy` qədər təkrarlayır.                                    |
+
+---
+
+## Nümunə 1: `index` Funksiyasının İstifadəsi
+
+```fortran
+program testingChars
+implicit none
+
+   character(80) :: text 
+   integer :: i 
+   
+   text = 'The intrinsic data type character stores characters and strings.'
+   i = index(text, 'character') 
+   
+   if (i /= 0) then
+      print *, 'The word character found at position ', i
+      print *, 'In text: ', text 
+   end if
+   
+end program testingChars
+```
+
+Nəticə:
+
+```
+The word character found at position 25
+In text: The intrinsic data type character stores characters and strings.
+```
+
+---
+
+## Nümunə 2: `trim` Funksiyasının İstifadəsi
+
+```fortran
+program hello
+implicit none
+
+   character(len = 15) :: surname, firstname 
+   character(len = 6) :: title 
+   character(len = 25):: greetings
+   
+   title = 'Mr.' 
+   firstname = 'Rowan' 
+   surname = 'Atkinson'
+   
+   print *, 'Here is', title, firstname, surname
+   print *, 'Here is', trim(title), ' ', trim(firstname), ' ', trim(surname)
+   
+end program hello
+```
+
+Nəticə:
+
+```
+Here isMr. Rowan Atkinson       
+Here is Mr. Rowan Atkinson
+```
+
+---
+
+## Simvolların Leksik Sırası
+
+Aşağıdakı funksiyalar simvolların leksik ardıcıllığını müəyyən edir:
+
+| **№** | **Funksiya və Təsviri**                                                                                     |
+|-------|-------------------------------------------------------------------------------------------------------------|
+| **1** | **`lle(char, char)`**: İlk simvolun ikincidən kiçik və ya bərabər olub-olmadığını müqayisə edir.             |
+| **2** | **`lge(char, char)`**: İlk simvolun ikincidən böyük və ya bərabər olub-olmadığını müqayisə edir.             |
+| **3** | **`lgt(char, char)`**: İlk simvolun ikincidən böyük olub-olmadığını müqayisə edir.                          |
+| **4** | **`llt(char, char)`**: İlk simvolun ikincidən kiçik olub-olmadığını müqayisə edir.                          |
+
+---
+
+## Nümunə 4: Leksik Sıra Funksiyalarının İstifadəsi
+
+```fortran
+program testingChars
+implicit none
+
+   character:: a, b, c
+   a = 'A'
+   b = 'a'
+   c = 'B'
+   
+   if (lgt(a, b)) then
+      print *, 'A is lexically greater than a'
+   else
+      print *, 'a is lexically greater than A'
+   end if
+   
+   if (lgt(a, c)) then
+      print *, 'A is lexically greater than B'
+   else
+      print *, 'B is lexically greater than A'
+   end if  
+   
+   if (llt(a, b)) then
+      print *, 'A is lexically less than a'
+   end if
+   
+   if (llt(a, c)) then
+      print *, 'A is lexically less than B'
+   end if
+   
+end program testingChars
+```
+
+Nəticə:
+
+```
+a is lexically greater than A
+B is lexically greater than A
+A is lexically less than a
+A is lexically less than B
+```

@@ -1,0 +1,124 @@
+### Fortran Proqramının Əsasları
+
+Fortran proqramı əsas proqram, modullar, və xarici altproqramlar və ya prosedurlar kimi proqram vahidlərinin kolleksiyasından ibarətdir. Hər proqram bir əsas proqramdan və əlavə proqramlardan ibarət ola bilər.
+
+Əsas proqramın sadə sintaksisi aşağıdakı kimidir:
+
+```fortran
+program proqram_adı
+implicit none      
+
+! Tip təyinatları      
+! İcra olunan ifadələr  
+
+end program proqram_adı
+```
+
+---
+
+### Fortranda Sadə Proqram
+
+Aşağıdakı nümunə iki ədədin toplanmasını və nəticənin çap olunmasını göstərən sadə bir proqramdır:
+
+```fortran
+program addNumbers
+   implicit none
+
+! Tip təyinatları
+   real :: a, b, result
+
+! İcra olunan ifadələr
+   a = 12.0
+   b = 15.0
+   result = a + b
+   print *, 'Cəmi: ', result
+
+end program addNumbers
+```
+
+#### Çıxış
+Proqramı kompilyasiya edib işlətdikdə aşağıdakı nəticəni əldə edəcəksiniz:
+
+```
+Cəmi: 27.0000000
+```
+
+---
+
+### Unudulmamalı Əsas Məqamlar
+
+1. **Proqramın Quruluşu**  
+   - Bütün Fortran proqramları `program` açar sözü ilə başlayır və `end program` ifadəsinin ardınca proqram adı ilə bitir.
+
+2. **Dəyişənlərin Bəyan Edilməsi**  
+   - `implicit none` ifadəsi bütün dəyişənlərin tipini düzgün bəyan etməyi tələb edir. Proqramınızın əvvəlində həmişə bu ifadəni yazmaq lazımdır.
+
+3. **Şərhlər**  
+   - Şərhlər nida işarəsi (`!`) ilə başlayır. Bu işarədən sonra gələn hər şey kompilyator tərəfindən nəzərə alınmır.
+
+4. **Çıxış**  
+   - Ekranda məlumat göstərmək üçün `print *` əmri istifadə olunur.
+
+5. **Kodun Oxunaqlılığı**  
+   - İndentasiya(Sətirlərin əvvəlində olan boşluqlar) məcburi deyil, lakin proqramın oxunaqlılığını artırmaq üçün tövsiyə olunur.
+
+6. **Böyük və Kiçik Hərf Həssaslığı**  
+   - Fortran böyük və kiçik hərflərə qarşı həssas deyil (string sabitləri istisnadır). Həm böyük, həm də kiçik hərflərdən istifadə edə bilərsiniz.
+
+---
+
+### Fortran Sintaksisinin Əsasları
+
+#### Simvollar
+Fortranın əsas simvollar dəsti aşağıdakıları əhatə edir:
+- Hərflər: `A ... Z` və `a ... z`
+- Rəqəmlər: `0 ... 9`
+- Xüsusi simvollar: `_ = : + - * / ( ) [ ] , . $ ' ! " % & ; < > ?`
+
+#### Tokenlər
+Tokenlər Fortran proqramlarının əsas elementləridir. Onlar aşağıdakıları əhatə edir:
+- Tanıtıcılar
+- Açar sözlər
+- Sabitlər
+- String sabitləri
+- Simvollar
+
+---
+
+### Fortranda Tanıtıcılar
+
+Tanıtıcılar dəyişənlərə, prosedurlara və ya digər istifadəçi tərəfindən təyin olunan elementlərə verilən adlardır. Onlar aşağıdakı qaydalara riayət etməlidir:
+- Maksimum uzunluq: 31 simvol.
+- Tərkib: Hərf, rəqəm və alt xətt (`_`).
+- Birinci simvol mütləq hərf olmalıdır.
+- Böyük və kiçik hərf fərqi yoxdur.
+
+---
+
+### Fortranda Açar Sözlər
+
+Açar sözlər Fortranda xüsusi mənaya malikdir və dəyişənlərin və ya tanıtıcıların adları kimi istifadə edilə bilməz. Aşağıda bəzi Fortran açar sözlərinin siyahısı verilmişdir:
+
+#### Giriş/Çıxış ilə Əlaqəsi Olmayan Açar Sözlər
+| allocatable | allocate | assign | assignment | block data |
+|-------------|----------|--------|------------|------------|
+| call        | case     | character | common   | complex    |
+| contains    | continue | cycle | data       | deallocate |
+| default     | do       | double precision | else | else if |
+| elsewhere   | end block data | end do | end function | end if |
+| end interface | end module | end program | end select | end subroutine |
+| end type    | end where | entry | equivalence | exit      |
+| external    | function | go to  | if         | implicit  |
+| in          | inout    | integer | intent    | interface |
+| intrinsic   | kind     | len    | logical    | module    |
+| namelist    | nullify  | only   | operator   | optional  |
+| out         | parameter | pause | pointer    | private   |
+| program     | public   | real   | recursive  | result    |
+| return      | save     | select case | stop | subroutine |
+| target      | then     | type   | type()     | use       |
+| where       | while    |        |            |           |
+
+#### Giriş/Çıxış ilə Əlaqəli Açar Sözlər
+| backspace | close | endfile | format | inquire |
+|-----------|-------|---------|--------|---------|
+| open      | print | read    | rewind | write   |

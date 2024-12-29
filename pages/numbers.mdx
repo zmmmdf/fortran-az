@@ -1,0 +1,257 @@
+## Fortran-da Rəqəmlər
+
+Fortran-da rəqəmlər üç əsas daxili məlumat tipi ilə təmsil olunur:
+
+1. **Tam ədəd tipi** 
+2. **Gerçək ədəd tipi** 
+3. **Kompleks ədəd tipi**
+
+Hər bir bu tiplər fərqli növ rəqəmi saxlamaq üçün istifadə olunur, tam ədədlərdən üfüqi nöqtə dəyərlərinə və kompleks ədədlərə qədər.
+
+---
+
+### Tam ədəd tipi
+
+Tam ədəd tipi yalnız tam ədədləri saxlaya bilər. Fortran, tam ədəd dəyişənində saxlanıla biləcək ən böyük dəyəri qaytaran `huge()` funksiyasını təmin edir. Aşağıdakı nümunə `huge()` funksiyasının fərqli ölçülü tam ədədlərlə necə işlədiyini göstərir.
+
+#### Nümunə: Tam Ədəd Dəyərləri
+
+```fortran
+program testingInt
+implicit none
+
+   integer :: largeval
+   print *, huge(largeval)
+   
+end program testingInt
+```
+
+**Çıxış:**
+```
+2147483647
+```
+
+Bu, 4 baytlıq tam ədədin saxlaya biləcəyi ən böyük dəyərdir. `huge()` funksiyası fərqli tam ədəd növləri üzrə istifadə edilə bilər, burada istifadə edilən bayt sayını qeyd edərək.
+
+#### Nümunə: Tam Ədəd Növlərinin Təqdim Edilməsi
+
+```fortran
+program testingInt
+implicit none
+
+   ! iki baytlıq tam ədəd
+   integer(kind = 2) :: shortval
+   
+   ! dörd baytlıq tam ədəd
+   integer(kind = 4) :: longval
+   
+   ! səkkiz baytlıq tam ədəd
+   integer(kind = 8) :: verylongval
+   
+   ! on altı baytlıq tam ədəd
+   integer(kind = 16) :: veryverylongval
+   
+   ! standart tam ədəd 
+   integer :: defval
+        
+   print *, huge(shortval)
+   print *, huge(longval)
+   print *, huge(verylongval)
+   print *, huge(veryverylongval)
+   print *, huge(defval)
+   
+end program testingInt
+```
+
+**Çıxış:**
+```
+32767
+2147483647
+9223372036854775807
+170141183460469231731687303715884105727
+2147483647
+```
+
+Bu nümunədə fərqli ölçülü tam ədədlər təyin edilib və `huge()` funksiyası hər bir tip üçün ən böyük dəyəri çap etmək üçün istifadə olunur.
+
+---
+
+### Gerçək ədəd tipi
+
+Gerçək ədəd tipi üfüqi nöqtə ədədlərini saxlamaq üçün istifadə olunur, məsələn, `2.0`, `3.1415`, `-100.876` və s. Fortran 90/95-də `kind` xüsusiyyətini istifadə edərək gerçək və tam ədəd tiplərinin dəqiqliyini təyin etmək mümkündür.
+
+#### Nümunə: Gerçək Bölmə
+
+```fortran
+program division   
+implicit none
+
+   ! Gerçək dəyişənləri təyin et   
+   real :: p, q, realRes 
+   
+   ! Tam ədəd dəyişənlərini təyin et  
+   integer :: i, j, intRes  
+   
+   ! Dəyərləri təyin et   
+   p = 2.0 
+   q = 3.0    
+   i = 2 
+   j = 3  
+   
+   ! Üfüqi nöqtə bölməsi
+   realRes = p/q  
+   intRes = i/j
+   
+   print *, realRes
+   print *, intRes
+   
+end program division  
+```
+
+**Çıxış:**
+```
+0.666666687    
+0
+```
+
+Bu nümunədə, üfüqi nöqtə bölməsi `realRes` yüksək dəqiqliklə dəyər qaytarır, halbuki tam ədəd bölməsi `intRes` ondalıklı hissəni kəsir və `0` qaytarır.
+
+---
+
+### Kompleks ədəd tipi
+
+Kompleks ədədlər iki hissədən ibarətdir: gerçək hissə və imicinar hissə. Fortran, kompleks ədədlərlə işləmək üçün `complex` tipini təklif edir, burada gerçək və imicinar komponentlər ayrı-ayrı dəyərlər kimi saxlanılır.
+
+#### Nümunə: Kompleks Ədəd Yaradılması
+
+```fortran
+program createComplex
+implicit none
+
+   integer :: i = 10
+   real :: x = 5.17
+   print *, cmplx(i, x)
+   
+end program createComplex
+```
+
+**Çıxış:**
+```
+(10.0000000, 5.17000008)
+```
+
+`cmplx()` funksiyası, iki dəyəri gerçək və imicinar hissələr olaraq alıb kompleks ədəd yaradır.
+
+#### Nümunə: Kompleks Riyazi Əməliyyatlar
+
+```fortran
+program ComplexArithmatic
+implicit none
+
+   complex, parameter :: i = (0, 1)   ! sqrt(-1)   
+   complex :: x, y, z 
+   
+   x = (7, 8); 
+   y = (5, -7)   
+   write(*,*) i * x * y
+   
+   z = x + y
+   print *, "z = x + y = ", z
+   
+   z = x - y
+   print *, "z = x - y = ", z 
+   
+   z = x * y
+   print *, "z = x * y = ", z 
+   
+   z = x / y
+   print *, "z = x / y = ", z 
+   
+end program ComplexArithmatic
+```
+
+**Çıxış:**
+```
+(9.00000000, 91.0000000)
+z = x + y = (12.0000000, 1.00000000)
+z = x - y = (2.00000000, 15.0000000)
+z = x * y = (91.0000000, -9.00000000)
+z = x / y = (-0.283783793, 1.20270276)
+```
+
+Bu nümunə, kompleks ədədlərlə toplama, çıxarma, vurma və bölmə əməliyyatlarını göstərir.
+
+---
+
+### Rəqəmlərin Aralığı, Dəqiqliyi və Ölçüsü
+
+Fortran-da rəqəmlərin aralığı, dəqiqliyi və ölçüsü, xüsusi bir məlumat tipinə təyin edilmiş bit sayına əsaslanır.
+
+#### Tam Ədəd Aralığı
+Tam ədədlər üçün maksimum dəyər, təyin edilmiş bit sayına bağlıdır:
+
+| Bit sayısı | Maksimum dəyər            |
+|------------|---------------------------|
+| 64         | 9,223,372,036,854,774,807  |
+| 32         | 2,147,483,647             |
+
+#### Gerçək Ədəd Aralığı və Dəqiqliyi
+Gerçək ədədlər üçün dəqiqlik və aralıq, dəyərin tək dəqiqlik (32-bit) və ya cüt dəqiqlik (64-bit) olmasına görə dəyişir:
+
+| Bit sayısı | Ən böyük dəyər | Ən kiçik dəyər  | Dəqiqlıq |
+|------------|-----------------|-----------------|----------|
+| 64         | 0.8E+308        | 0.5E–308        | 15–18    |
+| 32         | 1.7E+38         | 0.3E–38         | 6–9      |
+
+#### Nümunə: Gerçək Ədədlərdə Daşma və Aşağı Dəyər
+
+```fortran
+program rangePrecision
+implicit none
+
+   real:: x, y, z
+   x = 1.5e+40
+   y = 3.73e+40
+   z = x * y 
+   print *, z
+   
+end program rangePrecision
+```
+
+**Çıxış:**
+```
+Error: Real constant overflows its kind at (1)
+```
+
+Bu nümunədə, gerçək ədəd `x` və `y` verilən dəqiqlik üçün maksimum dəyəri aşır və buna görə daşma baş verir.
+
+---
+
+### `Kind` Xüsusiyyəti
+
+`Kind` xüsusiyyəti, fərqli aparat platformalarında məlumat tiplərinin aralığı və dəqiqliyi haqqında anlamaq üçün vacibdir. `kind()` daxili funksiyası, proqram işlədiləndən əvvəl müxtəlif tiplərin məlumat təmsilini sorğulamağa imkan verir.
+
+#### Nümunə: Məlumat Tipinin Kind Dəyərini Yoxlamaq
+
+```fortran
+program kindCheck
+implicit none
+
+   integer :: i 
+   real :: r 
+   complex :: cp 
+   print *,' Integer ', kind(i) 
+   print *,' Real ', kind(r) 
+   print *,' Complex ', kind(cp) 
+   
+end program kindCheck
+```
+
+**Çıxış:**
+```
+Integer 4
+Real 4
+Complex 4
+```
+
+Bu proqram, tam ədəd, gerçək və kompleks dəyişənlər üçün `kind` dəyərlərini çap edir. `Kind` funksiyası bu dəyişənləri təmsil etmək üçün istifadə olunan bayt sayını müəyyən etməyə kömək edir.

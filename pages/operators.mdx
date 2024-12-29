@@ -1,0 +1,68 @@
+# Fortranda Operatorlar
+
+Operator, istifadəçiyə spesifik riyazi və ya məntiqi əməliyyatlar etməyi bildirən simvoldur. Fortran aşağıdakı operator növlərini təqdim edir:
+
+- Riyazi Operatorlar
+- Əlaqə Operatorları
+- Məntiqi Operatorlar
+
+Gəlin bu operator növlərinə bir-bir nəzər salaq.
+
+## Riyazi Operatorlar
+
+Aşağıdakı cədvəl, Fortran tərəfindən dəstəklənən bütün riyazi operatorları göstərir. Tutaq ki, `A` dəyişəni 5, `B` dəyişəni isə 3 saxlayır, beləliklə:
+
+| Operator | Təsvir | Nümunə |
+|----------|--------|--------|
+| `+`      | Cəm Operatoru, iki operandı(toplananları) cəmləyir. | `A + B` 8 nəticəsini verir |
+| `-`      | Çıxma Operatoru, ikinci operandı(çıxanı) birini operanddan(çıxılandan) çıxarır. | `A - B` 2 nəticəsini verir |
+| `*`      | Vurma Operatoru, iki operandı(vuruğu) bir-birinə vurur. | `A * B` 15 nəticəsini verir |
+| `/`      | Bölmə Operatoru, birinci operandı(bölünəni) ikinci operanda(bölənə) bölür. | `A / B` 1 nəticəsini verir |
+| `**`     | Qüvvətə Qaldırma Operatoru, bir operandı digərinin qüvvətinə qaldırır. | `A ** B` 125 nəticəsini verir |
+
+## Əlaqə Operatorları
+
+Aşağıdakı cədvəl, Fortran tərəfindən dəstəklənən bütün əlaqə operatorlarını göstərir. Tutaq ki, `A` dəyişəni 10, `B` dəyişəni isə 20 saxlayır, beləliklə:
+
+| Operator | Ekvivalent | Təsvir | Nümunə |
+|----------|------------|--------|--------|
+| `==`     | `.eq.`     | İki operandın dəyərlərinin bərabər olub-olmamasını yoxlayır. Əgər bərabərsə, şərt doğru olur. | `(A == B)` doğru deyil. |
+| `/=`     | `.ne.`     | İki operandın dəyərlərinin bərabər olub-olmamasını yoxlayır. Əgər bərabər deyilsə, şərt doğru olur. | `(A != B)` doğrudur. |
+| `>`      | `.gt.`     | Sol operandın dəyərinin sağ operandın dəyərindən böyük olub-olmamasını yoxlayır. Əgər böyüksə, şərt doğru olur. | `(A > B)` doğru deyil. |
+| `<`      | `.lt.`     | Sol operandın dəyərinin sağ operandın dəyərindən kiçik olub-olmamasını yoxlayır. Əgər kiçikdirsə, şərt doğru olur. | `(A < B)` doğrudur. |
+| `>=`     | `.ge.`     | Sol operandın dəyərinin sağ operandın dəyərindən böyük və ya bərabər olub-olmamasını yoxlayır. Əgər böyüksə və ya bərabərsə, şərt doğru olur. | `(A >= B)` doğru deyil. |
+| `<=`     | `.le.`     | Sol operandın dəyərinin sağ operandın dəyərindən kiçik və ya bərabər olub-olmamasını yoxlayır. Əgər kiçikdirsə və ya bərabərdirsə, şərt doğru olur. | `(A <= B)` doğrudur. |
+
+## Məntiqi Operatorlar
+
+Fortranda məntiqi operatorlar yalnız `.true.` və `.false.` məntiqi dəyərlər üzərində işləyir.
+
+Aşağıdakı cədvəl, Fortran tərəfindən dəstəklənən bütün məntiqi operatorları göstərir. Tutaq ki, `A` dəyişəni `.true.` saxlayır, `B` dəyişəni isə `.false.` saxlayır, beləliklə:
+
+| Operator | Təsvir | Nümunə |
+|----------|--------|--------|
+| `.and.`  | Məntiqi VƏ operatoru olaraq çağırılır. Əgər hər iki operand sıfırdan fərqli olarsa, şərt doğru olur. | `(A .and. B)` yanlışdır. |
+| `.or.`   | Məntiqi VƏYA operatoru olaraq çağırılır. Əgər hər hansı bir operand sıfırdan fərqli olarsa, şərt doğru olur. | `(A .or. B)` doğrudur. |
+| `.not.`  | Məntiqi TƏRS operatoru olaraq çağırılır. Operandının məntiqi vəziyyətini əksinə çevirir. Əgər şərt doğru olsa, Məntiqi TƏRS operatoru onu yalnışa çevirir. | `!(A .and. B)` doğrudur. |
+| `.eqv.`  | Məntiqi BƏRABƏRDİR operatoru olaraq çağırılır. İki məntiqi dəyərin bərabərliyini yoxlayır. | `(A .eqv. B)` yanlışdır. |
+| `.neqv.` | Məntiqi BƏRABƏRSİZDİR operatoru olaraq çağırılır. İki məntiqi dəyərin bərabərsizliyini yoxlayır. | `(A .neqv. B)` doğrudur. |
+
+## Fortranda Operatorların Üstünlük Dərəcəsi
+
+Operatorların üstünlük dərəcəsi ifadədəki terminlərin qruplaşdırılmasını müəyyən edir. Bu, ifadənin necə qiymətləndirildiyini təsir edir. Bəzi operatorların üstünlük dərəcəsi digərlərindən yüksəkdir; məsələn, vurma operatorunun üstünlük dərəcəsi toplama operatorundan yüksəkdir.
+
+Məsələn, `x = 7 + 3 * 2` ifadəsində, burada `x` 13-ə təyin olunur, 20-yə yox, çünki `*` operatorunun üstünlük dərəcəsi `+`-dan yüksəkdir. Buna görə, əvvəlcə `3 * 2` vurulur, sonra isə `7`-yə əlavə edilir.
+
+Burada, ən yüksək üstünlük dərəcəsinə malik operatorlar cədvəlin yuxarısında göstərilir, ən aşağı üstünlük dərəcəsinə malik olanlar isə aşağıda. Bir ifadə daxilində, yüksək üstünlük dərəcəsinə malik operatorlar əvvəlcə qiymətləndirilir.
+
+| Kateqoriya                            | Operator | Assosiativlik |
+|---------------------------------------|----------|---------------|
+| Məntiqi TƏRS və mənfi işarə       | `.not.`, `(-)` | Soldan sağa |
+| Qüvvətə qaldırma                       | `**`     | Soldan sağa |
+| Vurma və bölmə                        | `*`, `/` | Soldan sağa |
+| Cəm və çıxma                          | `+`, `-` | Soldan sağa |
+| Əlaqə Operatorları                    | `<`, `<=`, `>`, `>=` | Soldan sağa |
+| Bərabərlik                             | `==`, `/=` | Soldan sağa |
+| Məntiqi VƏ                             | `.and.`  | Soldan sağa |
+| Məntiqi VƏYA                          | `.or.`   | Soldan sağa |
+| Təyin etmə                            | `=`      | Sağdan sola |

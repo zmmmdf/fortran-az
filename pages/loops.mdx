@@ -1,0 +1,86 @@
+# Fortran-da Dövrlər
+
+Bir kod blokunu dəfələrlə icra etmək lazım olduqda, dövrlərdən istifadə olunur. Çoxsaylı proqramlaşdırma dillərində alqoritmləri ardıcıl olaraq icra edilir: birinci alqoritm əvvəlcə icra edilir, sonra ikinci alqoritm və s. Ancaq dövrlər, bir alqoritm və ya bir qrup alqoritmi bir neçə dəfə icra etməyə imkan verir.
+
+Aşağıda dövrə alqoritmimin ümumi forması verilmişdir:
+
+![If Conditional](https://www.tutorialspoint.com/fortran/images/if_conditional.jpg)
+
+## Fortran-da Dövrə Qurğuları
+
+Fortran, dövrə tələblərini idarə etmək üçün bir neçə dövrə qurğusu təqdim edir:
+
+### 1. `do` Dövrü
+
+`do` dövrü, müəyyən bir şərt doğru olduğu müddətdə bir bəyanat və ya bir sıra bəyanatların iterativ şəkildə icra edilməsini təmin edir. Bu, Fortran-da ən çox istifadə olunan dövrədir.
+
+**Sintaksis:**
+```fortran
+do loop_variable = start, end, increment
+    ! bəyanatlar
+end do
+```
+
+### 2. `do while` Dövrü
+
+`do while` dövrü, bir alqoritmi və ya bir qrup alqoritmları müəyyən bir şərt doğru olduğu müddətdə təkrarlayır. Bu, dövr içərsindəki alqoritmi icra etməzdən əvvəl şərti yoxlayır, yəni əgər şərt başlanğıcda yalnışdırsa, dövrə heç icra olunmaya bilər.
+
+**Sintaksis:**
+```fortran
+do while (condition)
+    ! alqoritm
+end do
+```
+
+### 3. Növbəli Dövrlər
+
+Bir dövr qurğusunu başqa bir dövr qurğusunun daxilində istifadə etmək mümkündür, bu da növbəli dövr adlanır. Bu, daha mürəkkəb təkrarlama proseslərini həyata keçirməyə imkan verir.
+
+**Sintaksis:**
+```fortran
+do i = 1, 10
+    do j = 1, 5
+        ! növbəli dövr alqoritmləri
+    end do
+end do
+```
+
+## Dövrə Nəzarət Bəyanatları
+
+Dövrə nəzarət bəyanatları, bir dövrənin normal icra axışını dəyişdirir. Bu bəyanatlar, dövrəni tərk etməyə, bir iterasiyanı atlamağa və ya proqramın icrasını tamamilə dayandırmağa imkan verir.
+
+### 1. `exit` Bəyanatı
+
+`exit` bəyanatı, proqramın dərhal dövrədən çıxmasına imkan verir. Proqramın icrası, `end do` bəyanatından sonra ilk icra edilə bilən bəyanatla davam edir.
+
+**Sintaksis:**
+```fortran
+do i = 1, 10
+    if (i == 5) then
+        exit  ! i 5 olduğu zaman dövrəni tərk et
+    end if
+end do
+```
+
+### 2. `cycle` Bəyanatı
+
+`cycle` bəyanatı, proqramın cari iterasiyada qalan bəyanatları atlayaraq dövrənin növbəti iterasiyasına keçməsinə imkan verir.
+
+**Sintaksis:**
+```fortran
+do i = 1, 10
+    if (i == 5) then
+        cycle  ! i 5 olduğu zaman dövrənin qalan hissəsini atla
+    end if
+    ! digər bəyanatlar
+end do
+```
+
+### 3. `stop` Bəyanatı
+
+`stop` bəyanatı, proqramın icrasını tamamilə dayandırmaq üçün istifadə olunur.
+
+**Sintaksis:**
+```fortran
+stop  ! Proqramın icrasını dayandırır
+```

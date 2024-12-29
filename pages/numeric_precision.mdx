@@ -1,0 +1,138 @@
+## Fortranda Sayılar
+
+Artıq qeyd etdiyimiz kimi, Fortran-ın köhnə versiyalarında iki real növ mövcud idi: standart real növ və ikiqat dəqiqlik növü.
+
+Ancaq Fortran 90/95 real və tam ədəd məlumat növlərinin dəqiqliyini `kind` atributu vasitəsilə daha yaxşı idarə etməyə imkan verir.
+
+### Kind Atributu
+
+Fərqli növ nömrələr kompüterdə fərqli şəkildə saxlanılır. Kind atributu, bir ədədin daxili necə saxlandığını göstərməyə imkan verir. Məsələn:
+
+```fortran
+real, kind = 2 :: a, b, c
+real, kind = 4 :: e, f, g
+integer, kind = 2 :: i, j, k
+integer, kind = 3 :: l, m, n
+```
+
+Yuxarıdakı bəyanatda, `e`, `f`, və `g` real dəyişənləri, `a`, `b`, və `c` real dəyişənlərindən daha çox dəqiqliyə sahibdir. `l`, `m`, və `n` tam ədədləri `i`, `j`, və `k` tam ədədlərinə nisbətən daha böyük dəyərləri saxlaya bilər və saxlama üçün daha çox rəqəm tələb edir. Bu isə maşından asılıdır.
+
+### Nümunə
+#### Canlı Demo
+
+```fortran
+program kindSpecifier
+implicit none
+
+   real(kind = 4) :: a, b, c
+   real(kind = 8) :: e, f, g
+   integer(kind = 2) :: i, j, k
+   integer(kind = 4) :: l, m, n
+   integer :: kind_a, kind_i, kind_e, kind_l
+   
+   kind_a = kind(a)
+   kind_i = kind(i)
+   kind_e = kind(e)
+   kind_l = kind(l)
+   
+   print *,'default kind for real is', kind_a
+   print *,'default kind for int is', kind_i
+   print *,'extended kind for real is', kind_e
+   print *,'default kind for int is', kind_l
+   
+end program kindSpecifier
+```
+
+Yuxarıdakı proqramı tərtib edib icra etdikdə, aşağıdakı nəticəni alırıq −
+
+```
+default kind for real is 4
+default kind for int is 2
+extended kind for real is 8
+default kind for int is 4
+```
+
+### Dəyişənlərin Ölçüsünü Sorğulamaq
+
+Bir sıra daxili funksiyalar, ədədlərin ölçüsünü sorğulamağa imkan verir.
+
+Məsələn, `bit_size(i)` daxili funksiyası, saxlama üçün istifadə olunan bit sayı göstərir. Real ədədlər üçün, `precision(x)` daxili funksiyası, ondalıklı nöqtə dəqiqliyinin sayını qaytarır, `range(x)` daxili funksiyası isə, eksponentin ondalıklı diapazonunu qaytarır.
+
+#### Nümunə
+##### Canlı Demo
+
+```fortran
+program getSize
+implicit none
+
+   real (kind = 4) :: a
+   real (kind = 8) :: b
+   integer (kind = 2) :: i
+   integer (kind = 4) :: j
+
+   print *,'precision of real(4) =', precision(a)
+   print *,'precision of real(8) =', precision(b)
+   
+   print *,'range of real(4) =', range(a)
+   print *,'range of real(8) =', range(b)
+   
+
+   print *,'maximum exponent of real(4) =' , maxexponent(a)
+   print *,'maximum exponent of real(8) =' , maxexponent(b)
+  
+   print *,'minimum exponent of real(4) =' , minexponent(a)
+   print *,'minimum exponent of real(8) =' , minexponent(b)
+   
+   print *,'bits in integer(2) =' , bit_size(i)
+   print *,'bits in integer(4) =' , bit_size(j)
+   
+end program getSize
+```
+
+Yuxarıdakı proqramı tərtib edib icra etdikdə, aşağıdakı nəticəni alırıq −
+
+```
+precision of real(4) = 6
+precision of real(8) = 15
+range of real(4) = 37
+range of real(8) = 307
+maximum exponent of real(4) = 128
+maximum exponent of real(8) = 1024
+minimum exponent of real(4) = -125
+minimum exponent of real(8) = -1021
+bits in integer(2) = 16
+bits in integer(4) = 32
+```
+
+Karyeranızı inkişaf etdirmək üçün ən son onlayn kurslarımıza göz atın və öz sürətinizlə yeni bacarıqlar öyrənin. Qeydiyyatdan keçin və sertifikatlı mütəxəssis olun.
+
+### Kind Dəyərinin Alınması
+
+Fortran, tələb olunan tam ədəd və real növlərin dəqiqliyi üçün kind dəyərini əldə etmək üçün daha iki daxili funksiya təqdim edir:
+
+- `selected_int_kind (r)`
+- `selected_real_kind ([p, r])`
+
+`selected_real_kind` funksiyası, verilən ondalıklı dəqiqlik `p` və ondalıklı eksponent diapazonu `r` üçün tələb olunan kind növü parametr dəyərini qaytarır. Ondalıklı dəqiqlik, əhəmiyyətli rəqəmlərin sayıdır və ondalıklı eksponent diapazonu isə ən kiçik və ən böyük təmsil edilə bilən ədədi göstərir. Diapazon, `10-r`-dən `10+r`-ə qədərdir.
+
+Məsələn, `selected_real_kind (p = 10, r = 99)` funksiyası, 10 ondalıklı rəqəm və ən az `10-99` ilə `10+99` arasında bir diapazon üçün tələb olunan kind dəyərini qaytarır.
+
+#### Nümunə
+##### Canlı Demo
+
+```fortran
+program getKind
+implicit none
+
+   integer:: i
+   i = selected_real_kind (p = 10, r = 99) 
+   print *,'selected_real_kind (p = 10, r = 99)', i
+   
+end program getKind
+```
+
+Yuxarıdakı proqramı tərtib edib icra etdikdə, aşağıdakı nəticəni alırıq −
+
+```
+selected_real_kind (p = 10, r = 99) 8
+```

@@ -1,0 +1,109 @@
+Fortran dilində, **dəyişən** (variable) bir proqram daxilində manipulyasiya edilə bilən bir yaddaş sahəsinə verilən addır. Dəyişənin tipi, bu yaddaş sahəsinin quruluşunu və ölçüsünü, saxlaya biləcəyi dəyərlər aralığını və icra edilə bilən əməliyyatları təyin edir.
+
+--- 
+
+### **Dəyişən Adlandırma Qaydaları**
+Fortran-da dəyişən adlandırarkən aşağıdakı qaydalara riayət edilməlidir:
+- Ad **31 simvola qədər** ola bilər.
+- Ad yalnız **hərflərdən, rəqəmlərdən** və alt xətt işarəsindən (`_`) ibarət ola bilər.
+- İlk simvol mütləq bir **hərf** olmalıdır.
+- Dəyişən adları **hərf registrinə həssas deyil** (məsələn, `myvariable` və `MYVARIABLE` eyni hesab edilir).
+
+---
+
+### **Fortran Dəyişən Tipləri**
+Fortran-da əsas dəyişən tipləri bunlardır:
+
+1. **Tam ədəd (Integer)**: Tam ədədləri saxlamaq üçün istifadə olunur (məsələn, `1`, `-45`, `1024`).
+2. **Real ədəd (Real)**: Onluq nöqtəli ədədləri saxlamaq üçün istifadə olunur (məsələn, `3.14`, `-2.71`).
+3. **Kompleks ədəd (Complex)**: Həm real, həm də təsviri hissədən ibarət kompleks ədədləri saxlamaq üçün istifadə olunur (məsələn, `3.0 + 4.0i`).
+4. **Məntiqi (Logical)**: Məntiqi dəyərləri saxlayır: `.true.` və `.false.`.
+5. **Simvol (Character)**: Fərdi simvolları və ya mətn sətirlərini saxlamaq üçün istifadə olunur.
+
+---
+
+### **Dəyişənlərin Təyini**
+Fortran-da dəyişənlər proqramın (və ya alt proqramın) başlanğıcında **tip təyinetmə bəyanatı** ilə təyin edilir. Ümumi sintaksis belədir:
+
+```fortran
+type-specifier :: variable_name
+```
+
+Dəyişənlərin təyin edilməsinə dair nümunələr:
+
+```fortran
+integer :: total      ! Tam ədəd dəyişəni təyin edilir
+real :: average       ! Real ədəd dəyişəni təyin edilir
+complex :: cx         ! Kompleks dəyişən təyin edilir
+logical :: done       ! Məntiqi dəyişən təyin edilir
+character(len = 99) :: message  ! 99 simvol uzunluğunda string təyin edilir
+```
+
+Bu dəyişənlərə dəyər təyin etmə nümunələri:
+
+```fortran
+total = 20000
+average = 1666.67
+done = .true.
+message = "Fortran proqramlaşdırma dünyasına xoş gəlmisiniz!"
+cx = (3.0, 5.0)  ! Kompleks dəyər: 3.0 + 5.0i
+```
+
+Alternativ olaraq, kompleks dəyişənlər üçün `cmplx` daxili funksiyasından istifadə edə bilərsiniz:
+
+```fortran
+cx = cmplx(1.0 / 2.0, -7.0)  ! Kompleks dəyər: 0.5 - 7.0i
+cx = cmplx(x, y)  ! Kompleks dəyər: x + yi
+```
+
+---
+
+### **Nümunə: Dəyişənlərin Təyini və Dəyər Verilməsi**
+Aşağıda dəyişənlərin təyin edilməsi, dəyər verilməsi və nəticələrin çapına aid bir nümunə :
+
+```fortran
+program variableTesting
+  implicit none
+
+  ! Dəyişənlərin təyini
+  integer :: total
+  real :: average
+  complex :: cx
+  logical :: done
+  character(len = 99) :: message  ! 99 simvol uzunluğunda string
+
+  ! Dəyərlərin verilməsi
+  total = 20000
+  average = 1666.67
+  done = .true.
+  message = "Fortran proqramlaşdırma dünyasına xoş gəlmisiniz!"
+  cx = (3.0, 5.0)  ! Kompleks dəyər: 3.0 + 5.0i
+
+  ! Dəyərlərin çap edilməsi
+  print *, total
+  print *, average
+  print *, cx
+  print *, done
+  print *, message
+
+end program variableTesting
+```
+
+---
+
+### **Çıxış**
+Bu proqramın tərtibatı və icrasından sonra çıxış aşağıdakı kimi olacaq:
+
+```
+20000
+1666.67004
+(3.00000000, 5.00000000)
+T
+Fortran proqramlaşdırma dünyasına xoş gəlmisiniz!
+```
+
+- `total` tam ədəd dəyişəni `20000` kimi çap edilir.
+- `average` real ədəd dəyişəni `1666.67004` kimi çap edilir (onluq nöqtənin dəqiqliyi üzərində kiçik fərqlər müşahidə edilə bilər).
+- `cx` kompleks dəyişəni `(3.00000000, 5.00000000)` kimi göstərilir, bu da `3.0 + 5.0i` kompleks ədədini ifadə edir.
+- `done` məntiqi dəyişəni `T` (`.true.` mənasını verir) kimi çap edilir.
+- `message` simvol dəyişəni `Fortran proqramlaşdırma dünyasına xoş gəlmisiniz!` kimi çap edilir.

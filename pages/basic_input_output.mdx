@@ -1,0 +1,151 @@
+Fortran-da giriş və çıxış (I/O) əməliyyatlarını idarə etmək üçün iki əsas üsul mövcuddur: siyahı ilə yönləndirilmiş giriş-çıxış (list-directed I/O) və formatlı giriş-çıxış (formatted I/O). Siyahı ilə yönləndirilmiş I/O sadə və elastik məlumat ötürülməsi təklif edir, lakin formatlı I/O daha mürəkkəb və strukturlu məlumat formatlaşdırılmasına nəzarət etmək üçün daha çox imkan verir. Bu yazıda bu iki yanaşmaya daha dərindən baxacaq və formatlı I/O-nun daha mürəkkəb və strukturlaşdırılmış məlumatların formatlaşdırılmasında necə istifadə oluna biləcəyini araşdıracağıq.
+
+### Siyahı ilə Yönləndirilmiş Giriş və Çıxış (Azad Formatlı I/O)
+
+Fortran-da siyahı ilə yönləndirilmiş I/O ən sadə giriş-çıxış formasını təmsil edir. Bu yanaşmada verilənlər üçün heç bir format və ya struktur təyin edilməyə ehtiyac yoxdur. Bunun əvəzinə, Fortran avtomatik olaraq məlumatları oxumaq və ya yazmaq üçün istifadə olunan dəyişənlərin növlərinə əsaslanaraq hansı formatın tətbiq olunacağını müəyyən edir.
+
+Siyahı ilə yönləndirilmiş I/O-nun sintaksisi aşağıdakı kimidir:
+
+```fortran
+read(*,*) item1, item2, item3, ...
+print *, item1, item2, item3, ...
+write(*,*) item1, item2, item3, ...
+```
+
+Burada `*` simvolu, giriş və ya çıxış üçün xüsusi bir formatın təyin edilmədiyini bildirir. Proqram, daxil olan və ya çıxan verilənlərin növünü və formatını dəyişənlərə uyğun olaraq avtomatik tənzimləyir.
+
+Məsələn, aşağıdakı kod üç dəyişəni istifadəçidən oxuyur və sonra onları ekranda çap edir:
+
+```fortran
+program listIOExample
+    implicit none
+    integer :: x, y
+    real :: z
+    print *, 'Enter two integers and a real number:'
+    read *, x, y, z
+    print *, 'You entered:', x, y, z
+end program listIOExample
+```
+
+Bu kod istifadəçidən iki tam ədəd və bir reallıq nömrəsi istəyir, onları oxuyur və xüsusi bir format tətbiq etmədən ekranda göstərir.
+
+### Formatlı Giriş və Çıxış
+
+Formatlı I/O proqramçıya məlumatların necə oxunacağına və ya ekranda necə göstəriləcəyinə dair daha çox nəzarət imkanı verir. Müəyyən format təsviratlarından istifadə edərək sahənin genişliyini, ondalık nöqtələrinin sayını, hizalamaları və digər formatlaşdırma aspektlərini idarə edə bilərsiniz.
+
+#### Formatlı I/O üçün Əsas Sintaksis
+
+Formatlı I/O-nun sintaksisi aşağıdakı kimidir:
+
+```fortran
+read(fmt, *) variable_list
+print(fmt, *) variable_list
+write(fmt, *) variable_list
+```
+
+- `fmt` format spesifikasiyasını təmsil edir və verilənlərin necə formatlanması lazım olduğunu müəyyən edir.
+- `variable_list` isə daxil ediləcək və ya çıxarılacaq dəyişənlər siyahısıdır.
+
+`fmt` adətən bir və ya daha çox format təsviratı ilə olan bir stringdir. Bu təsviratlar, məlumatların necə təqdim olunacağını müəyyən edir, məsələn, rəqəmlərin sayı, sahənin genişliyi və ya ondalık dəqiqlik.
+
+#### Format Təsviratları
+
+Fortran-da ən çox istifadə olunan bəzi format təsviratları aşağıda verilmişdir:
+
+1. **I (Tam ədəd)**: Tam ədədlər üçün istifadə edilir. Format `rIw.m` şəklindədir, burada `r` təkrarlama sayı, `w` sahə genişliyi, `m` isə göstəriləcək rəqəmlərin sayıdır. Məsələn:
+   ```fortran
+   print "(3i5)", i, j, k
+   ```
+   Bu, üç tam ədədi, hər birini 5 simvol genişliyində çap edəcəkdir.
+
+2. **F (Reallıq nömrəsi)**: Reallıq nömrələri üçün istifadə edilir. Format `rFw.d` şəklindədir, burada `r` təkrarlama sayı, `w` sahə genişliyi, `d` isə ondalık nöqtəsindən sonra göstəriləcək rəqəmlərin sayıdır. Məsələn:
+   ```fortran
+   print "(f12.3)", pi
+   ```
+   Bu, `pi`-nin qiymətini 12 simvol genişliyində və 3 ondalık yeri ilə çap edəcəkdir.
+
+3. **E (Eksponensial)**: Reallıq nömrələrini elmi notasiya ilə çap etmək üçün istifadə edilir. Format `rEw.d` şəklindədir, burada `r`, `w` və `d` `F` təsviratında olduğu kimi istifadə olunur. Məsələn:
+   ```fortran
+   print "(e10.3)", 123456.0
+   ```
+   Bu, `123456.0` qiymətini elmi notasiya ilə `1.235e+05` olaraq çap edəcəkdir.
+
+4. **A (Simvol)**: Simvol sətirləri üçün istifadə edilir. Format `rAw` şəklindədir, burada `r` təkrarlama sayı və `w` sahə genişliyidir. Məsələn:
+   ```fortran
+   print "(a10)", str
+   ```
+   Bu, `str` sətirini 10 simvol genişliyində çap edəcəkdir.
+
+5. **X (Boşluq)**: Boşluq əlavə etmək üçün istifadə edilir. Format `nX` şəklindədir, burada `n` əlavə ediləcək boşluqların sayıdır. Məsələn:
+   ```fortran
+   print "(5x, a10)", str
+   ```
+   Bu, `str`-dən əvvəl 5 boşluq əlavə edəcəkdir.
+
+6. **/ (Yeni Sətir)**: Yeni bir çıxış sətiri əlavə etmək üçün istifadə edilir. Məsələn:
+   ```fortran
+   print "(/,5x, a10)", str
+   ```
+   Bu, `str`-i yeni sətirdə, 5 boşluq əlavə edərək çap edəcəkdir.
+
+#### Formatlı I/O-nun Nümunəsi
+
+Aşağıdakı nümunə, formatlı I/O istifadə edərək müxtəlif məlumat növlərini xüsusi formatla çap etməyi nümayiş etdirir:
+
+```fortran
+program formattedOutput
+    implicit none
+    real :: pi = 3.141592653589793
+    integer :: x = 45
+    character(len=15) :: name = 'Ardupilot'
+
+    print "(f6.3)", pi        ! Pi-ni 3 ondalık yeri ilə çap et
+    print "(f10.7)", pi       ! Pi-ni 7 ondalık yeri ilə çap et
+    print "(i6)", x           ! Tam ədəd x-i 6 simvol genişliyində çap et
+    print "(a15)", name       ! Strinq `name`-ni 15 simvol genişliyində çap et
+end program formattedOutput
+```
+
+Bu kodun tərtib edildikdən sonra işlədilməsindən sonra aşağıdakı nəticə alınacaq:
+
+```
+  3.142
+  3.1415927
+    45
+Ardupilot       
+```
+
+### Format Təsviri
+
+Format təsvirini birbaşa `print`, `read` və ya `write` ifadələrində istifadə etmək əvəzinə, Fortran ayrıca bir format bəyanatı təyin etməyə imkan verir. Bu, format spesifikasiyasının kodda bir neçə dəfə istifadə olunmasını asanlaşdırır.
+
+Format bəyanatının istifadəsi nümunəsi aşağıdakı kimidir:
+
+```fortran
+program formatStatement
+    implicit none
+    character(len=15) :: name
+    integer :: id
+    real :: weight
+
+    name = 'Ardupilot'
+    id = 1
+    weight = 0.08
+
+    print *, 'The product details are'
+    print 100
+    100 format(7x, 'Name:', 7x, 'Id:', 1x, 'Weight:')
+    print 200, name, id, weight
+    200 format(1x, a, 2x, i3, 2x, f5.2)
+end program formatStatement
+```
+
+Proqram işə salındıqda aşağıdakı formatlı çıxış əldə edilir:
+
+```
+The product details are
+      Name:       Id:    Weight:
+Ardupilot         1     0.08
+```
+
+Bu yanaşma daha strukturlu və oxunaqlı məlumat çıxışı təmin edir.

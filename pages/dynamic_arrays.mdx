@@ -1,0 +1,200 @@
+## Fortran-da Dinamik Massivlər
+
+Dinamik massiv ölçüsü tərtib zamanı məlum olmayan, lakin icra zamanı məlum olan massivdir.
+
+Dinamik massivlər `allocatable` atributu ilə bəyan edilir.
+
+Məsələn:
+
+```fortran
+real, dimension(:,:), allocatable :: darray
+```
+
+Massivin rütbəsi (yəni ölçüləri) göstərilməlidir. Belə massiv üçün yaddaş ayırmaq üçün `allocate` funksiyasından istifadə edilir:
+
+```fortran
+allocate(darray(s1, s2))
+```
+
+Massivdən istifadə etdikdən sonra ayrılmış yaddaşı `deallocate` funksiyası ilə azad etməlisiniz:
+
+```fortran
+deallocate(darray)
+```
+
+---
+
+### Nümunə
+
+Aşağıdakı nümunə yuxarıda müzakirə olunan anlayışları nümayiş etdirir:
+
+```fortran
+program dynamic_array
+implicit none
+
+   ! rütbə 2-dir, lakin ölçü məlum deyil
+   real, dimension(:,:), allocatable :: darray
+   integer :: s1, s2
+   integer :: i, j
+
+   print*, "Massivin ölçüsünü daxil edin:"
+   read*, s1, s2
+
+   ! yaddaş ayır
+   allocate(darray(s1, s2))
+
+   do i = 1, s1
+      do j = 1, s2
+         darray(i, j) = i * j
+         print*, "darray(", i, ",", j, ") = ", darray(i, j)
+      end do
+   end do
+
+   deallocate(darray)
+end program dynamic_array
+```
+
+Yuxarıdakı kod tərtib və icra edildikdə, aşağıdakı nəticə yaranır:
+
+```
+Massivin ölçüsünü daxil edin: 3 4
+darray( 1 , 1 ) = 1.00000000
+darray( 1 , 2 ) = 2.00000000
+darray( 1 , 3 ) = 3.00000000
+darray( 1 , 4 ) = 4.00000000
+darray( 2 , 1 ) = 2.00000000
+darray( 2 , 2 ) = 4.00000000
+darray( 2 , 3 ) = 6.00000000
+darray( 2 , 4 ) = 8.00000000
+darray( 3 , 1 ) = 3.00000000
+darray( 3 , 2 ) = 6.00000000
+darray( 3 , 3 ) = 9.00000000
+darray( 3 , 4 ) = 12.0000000
+```
+
+---
+
+## `Data` İfadəsinin İstifadəsi
+
+`data` ifadəsi bir neçə massivi və ya massiv bölməsini ilkinləşdirmək üçün istifadə edilə bilər.
+
+`data` ifadəsinin sintaksisi:
+
+```fortran
+data dəyişən / siyahı / ...
+```
+
+---
+
+### Nümunə
+
+```fortran
+program dataStatement
+implicit none
+
+   integer :: a(5), b(3,3), c(10), i, j
+   data a /7, 8, 9, 10, 11/
+   data b(1,:) /1, 1, 1/
+   data b(2,:) /2, 2, 2/
+   data b(3,:) /3, 3, 3/
+   data (c(i), i = 1, 10, 2) /4, 5, 6, 7, 8/
+   data (c(i), i = 2, 10, 2) /5*2/
+
+   print *, 'A massivi:'
+   do j = 1, 5
+      print *, a(j)
+   end do
+
+   print *, 'B massivi:'
+   do i = lbound(b, 1), ubound(b, 1)
+      write(*,*) (b(i, j), j = lbound(b, 2), ubound(b, 2))
+   end do
+
+   print *, 'C massivi:'
+   do j = 1, 10
+      print *, c(j)
+   end do
+
+end program dataStatement
+```
+
+Yuxarıdakı kod tərtib və icra edildikdə, aşağıdakı nəticə yaranır:
+
+```
+A massivi:
+ 7
+ 8
+ 9
+ 10
+ 11
+B massivi:
+ 1 1 1
+ 2 2 2
+ 3 3 3
+C massivi:
+ 4
+ 2
+ 5
+ 2
+ 6
+ 2
+ 7
+ 2
+ 8
+ 2
+```
+
+---
+
+## `Where` İfadəsinin İstifadəsi
+
+`where` ifadəsi məntiqi şərtin nəticəsinə əsasən bir massiv elementini ifadədə istifadə etməyə imkan verir. Əgər şərt doğru olarsa, ifadə həmin element üçün icra edilir.
+
+---
+
+### Nümunə
+
+```fortran
+program whereStatement
+implicit none
+
+   integer :: a(3,5), i, j
+
+   do i = 1, 3
+      do j = 1, 5
+         a(i, j) = j - i
+      end do
+   end do
+
+   print *, 'A massivi:'
+
+   do i = lbound(a, 1), ubound(a, 1)
+      write(*,*) (a(i, j), j = lbound(a, 2), ubound(a, 2))
+   end do
+
+   where (a < 0)
+      a = 1
+   elsewhere
+      a = 5
+   end where
+
+   print *, 'Where ifadəsindən sonra A massivi:'
+   do i = lbound(a, 1), ubound(a, 1)
+      write(*,*) (a(i, j), j = lbound(a, 2), ubound(a, 2))
+   end do
+
+end program whereStatement
+```
+
+Yuxarıdakı kod tərtib və icra edildikdə, aşağıdakı nəticə yaranır:
+
+```
+A massivi:
+ 0 1 2 3 4
+-1 0 1 2 3
+-2 -1 0 1 2
+Where ifadəsindən sonra A massivi:
+ 5 5 5 5 5
+ 1 5 5 5 5
+ 1 1 5 5 5
+```
