@@ -16,6 +16,26 @@ Windows üzərində GFortran-ı quraşdırmağın installer-dən istifadə edəc
 
 ---
 
+### **macOS Üzərində Quraşdırma**
+
+#### **Xcode İstifadə Edərək:**
+
+1. **Xcode Alətlərini Quraşdırın:**
+   Əgər Xcode quraşdırılıbsa, terminalı açın və aşağıdakı əmri daxil edin:
+   ```
+   xcode-select --install
+   ```
+
+#### **Homebrew İstifadə Edərək:**
+
+1. **GCC-ni Quraşdırın:**
+   Homebrew istifadə edirsinizsə, GCC-ni (hansı ki GFortran-ı da daxil edir) bu əmr vasitəsilə quraşdırın:
+   ```
+   brew install gcc
+   ```
+
+---
+
 ### **Linux Üzərində Quraşdırma**
 
 #### **Debian əsaslı Dağıtımlar (Debian, Ubuntu, Mint və s.)**
@@ -73,76 +93,3 @@ Windows üzərində GFortran-ı quraşdırmağın installer-dən istifadə edəc
    ```
 
 ---
-
-### **macOS Üzərində Quraşdırma**
-
-#### **Xcode İstifadə Edərək:**
-
-1. **Xcode Alətlərini Quraşdırın:**
-   Əgər Xcode quraşdırılıbsa, terminalı açın və aşağıdakı əmri daxil edin:
-   ```
-   xcode-select --install
-   ```
-
-#### **Homebrew İstifadə Edərək:**
-
-1. **GCC-ni Quraşdırın:**
-   Homebrew istifadə edirsinizsə, GCC-ni (hansı ki GFortran-ı da daxil edir) bu əmr vasitəsilə quraşdırın:
-   ```
-   brew install gcc
-   ```
-
-#### **Fink və ya MacPorts İstifadə Edərək:**
-
-1. **Fink:** GNU GCC paketini axtarın:
-   ```
-   fink search gcc
-   ```
-   GCC-nin bir versiyasını quraşdırın:
-   ```
-   sudo port install gcc10
-   ```
-
-2. **MacPorts:** MacPorts ilə istədiyiniz GCC versiyasını quraşdırın:
-   ```
-   sudo port install gcc10
-   ```
-
-#### **Birbaşa İkilik Fayllar ilə Quraşdırma:**
-
-1. **FXcoudert’s GFortran for macOS:**
-   GFortran üçün əvvəlcədən hazırlanmış ikilik faylları [fxcoudert GitHub deposu](https://github.com/fxcoudert/gfortran-for-macOS) vasitəsilə yükləyə bilərsiniz.
-
----
-
-### **OpenBSD Üzərində Quraşdırma**
-
-OpenBSD-də GFortran icra faylı `egfortran` adlanır. Quraşdırmaq üçün aşağıdakı əmri işlədin:
-```
-pkg_add g95
-```
-GFortran versiyasını yoxlamaq üçün:
-```
-egfortran -v
-```
-
----
-
-### **OpenCoarrays (Fortran üçün Paralel Proqramlaşdırma)**
-
-OpenCoarrays, GFortran-ın Fortran 2018 paralel proqramlaşdırma xüsusiyyətlərindən istifadə etməsinə imkan verən açıq mənbəli bir layihədir. Bu, ayrıca kompilyator deyil, GFortran ilə birlikdə paralel icra edilə bilən proqramlar yaratmaq üçün işləyir.
-
-1. **Paralel Kod İcra Etmək:**
-   OpenCoarrays ilə paralel Fortran proqramlarını icra etmək üçün aşağıdakı əmr istifadə olunur:
-   ```
-   cafrun -n <şəkillərin_sayı> <icra_faylı_adı>
-   ```
-
-2. **Quraşdırma:**
-   OpenCoarrays-ı quraşdırmaq üçün [OpenCoarrays rəsmi quraşdırma təlimatı](https://github.com/sourceryinstitute/opencoarrays)-na baxın.
-
----
-
-### **Windows-da Yerli Quraşdırma**
-
-Təəssüf ki, Windows-da GFortran-ın yerli quraşdırılması mümkün deyil. Onu yalnız **Windows Subsystem for Linux (WSL)** vasitəsilə quraşdırmaq olar. Bu, Linux-a bənzər bir mühit təmin etdiyi üçün inkişaf alətləri, o cümlədən GFortran ilə tam uyğunluğu təmin edir.
