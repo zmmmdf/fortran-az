@@ -1,4 +1,4 @@
-# Fortran Beginner Documentation Website
+# Fortran-a yeni başlayanlar üçün Dərslik
 
 Bu layihə Fortran proqramlaşdırma dilini öyrənmək istəyənlər üçün hazırlanmışdır. Sayt tamamilə Azərbaycan dilindədir və Fortran haqqında əsas məlumatları, nümunələri və yeni başlayanlar üçün dərslikləri əhatə edir.
 
@@ -17,7 +17,7 @@ Bu sayt Azərbaycan dilində Fortran haqqında məlumatın çatışmazlığını
 
 ## Sayta Baxın
 
-Fortran sənəd saytına bu keçiddən daxil ola bilərsiniz: [Fortran Docs](https://mziya.xyz/docs/fortran)
+Fortran sənəd saytına bu keçiddən daxil ola bilərsiniz: [Fortran Docs](https://fortran.mziya.xyz)
 
 ## Layihəyə Dəstək
 
