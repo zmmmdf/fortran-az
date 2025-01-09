@@ -22,7 +22,3 @@ Fortran sənəd saytına bu keçiddən daxil ola bilərsiniz: [Fortran Docs](htt
 ## Layihəyə Dəstək
 
 Rəy və təkliflərinizi paylaşmaqdan çəkinməyin! Layihəni inkişaf etdirmək üçün fikirləriniz çox önəmlidir. ❤️
-
-## Lisensiya
-
-Bu layihə **MIT** lisenziyası altında yayımlanır. Əlavə məlumat üçün lisenziya sənədinə baxın.
